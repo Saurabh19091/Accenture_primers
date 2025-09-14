@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Software Testing Guide</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background-color: #0f4c81;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #0f4c81;
+            margin-top: 30px;
+        }
+
+        p {
+            line-height: 1.6;
+        }
+
+        ul {
+            margin-left: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #0f4c81;
+            color: white;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #0f4c81;
+            color: white;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Software Testing Guide</h1>
+    </header>
+
+    <div class="container">
+        <h2>1. Software Testing Overview</h2>
+        <p>Software testing is a process used to identify the correctness, completeness, and quality of software. Testing can be broadly classified into <strong>Static Testing</strong> and <strong>Dynamic Testing</strong>.</p>
+
+        <h2>2. Static Testing</h2>
+        <p>Static testing is performed <strong>without executing the code</strong>. It focuses on reviewing and analyzing the code, documents, and design.</p>
+        <ul>
+            <li>Techniques: <strong>Code Reviews, Walkthroughs, Inspections</strong></li>
+            <li>Purpose: Detect errors early, save time and cost.</li>
+            <li>Pros: Finds syntax and documentation errors, prevents defects before execution.</li>
+            <li>Cons: Cannot find runtime errors.</li>
+        </ul>
+
+        <h2>3. Dynamic Testing</h2>
+        <p>Dynamic testing involves <strong>executing the code</strong> to check if the software behaves as expected.</p>
+        <ul>
+            <li>Purpose: Detect runtime errors, logic errors, performance issues.</li>
+            <li>Types: Functional Testing, Non-functional Testing.</li>
+            <li>Examples: Testing login modules, stress testing servers.</li>
+        </ul>
+
+        <h3>Black Box Testing</h3>
+        <ul>
+            <li>Does not require code knowledge.</li>
+            <li>Focus: Inputs and outputs.</li>
+            <li>Used in: System testing, Acceptance testing.</li>
+        </ul>
+
+        <h3>White Box Testing</h3>
+        <ul>
+            <li>Requires knowledge of code.</li>
+            <li>Focus: Internal logic, loops, conditions.</li>
+            <li>Used in: Unit testing, Integration testing.</li>
+        </ul>
+
+        <h2>4. Types of Software Testing</h2>
+        <h3>Functional Testing</h3>
+        <ul>
+            <li>Unit Testing</li>
+            <li>Integration Testing</li>
+            <li>System Testing</li>
+            <li>Acceptance Testing</li>
+        </ul>
+
+        <h3>Non-Functional Testing</h3>
+        <ul>
+            <li>Performance Testing</li>
+            <li>Load Testing</li>
+            <li>Stress Testing</li>
+            <li>Usability Testing</li>
+            <li>Security Testing</li>
+        </ul>
+
+        <h3>Comparison Table: Black Box vs White Box</h3>
+        <table>
+            <tr>
+                <th>Aspect</th>
+                <th>Black Box Testing</th>
+                <th>White Box Testing</th>
+            </tr>
+            <tr>
+                <td>Knowledge of Code</td>
+                <td>Not required</td>
+                <td>Required</td>
+            </tr>
+            <tr>
+                <td>Focus</td>
+                <td>Functionality (inputs/outputs)</td>
+                <td>Internal code structure</td>
+            </tr>
+            <tr>
+                <td>Techniques</td>
+                <td>Equivalence, Boundary, Decision Table</td>
+                <td>Statement, Branch, Path, Loop</td>
+            </tr>
+            <tr>
+                <td>Typical Level</td>
+                <td>System, Acceptance</td>
+                <td>Unit, Integration</td>
+            </tr>
+            <tr>
+                <td>Pros</td>
+                <td>User-focused, easy to perform</td>
+                <td>Thorough, finds hidden bugs</td>
+            </tr>
+            <tr>
+                <td>Cons</td>
+                <td>Limited code coverage</td>
+                <td>Requires programming knowledge</td>
+            </tr>
+        </table>
+    </div>
+
+    <footer>
+        &copy; 2025 Software Testing Guide
+    </footer>
+</body>
+</html>

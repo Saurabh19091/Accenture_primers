@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Phases of Software Engineering — SRS • ERD • Code • Quick Revision</title>
+<style>
+  :root{--bg:#071025;--card:#0d1830;--muted:#9fb0d6;--accent:#5eead4;--ink:#eaf6ff}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,var(--bg),#041021);color:var(--ink);}
+  .wrap{max-width:1100px;margin:24px auto;padding:18px}
+  header{display:flex;align-items:center;gap:14px}
+  h1{margin:0;font-size:clamp(20px,3.2vw,28px)}
+  p.lead{color:var(--muted);margin:6px 0 18px}
+  nav{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+  .btn{background:transparent;border:1px solid rgba(255,255,255,.06);padding:8px 12px;border-radius:10px;color:var(--muted);cursor:pointer}
+  .grid{display:grid;grid-template-columns:3fr 1.1fr;gap:18px}
+  main{background:linear-gradient(180deg,#081532,#071229);padding:18px;border-radius:14px;border:1px solid rgba(255,255,255,.03)}
+  aside{position:sticky;top:20px;height:fit-content}
+  section{margin-bottom:18px}
+  .card{background:linear-gradient(180deg,#0b2138,#08182b);padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,.03)}
+  h2{margin:0 0 8px}
+  pre,code{background:#021021;color:var(--ink);padding:12px;border-radius:8px;overflow:auto;border:1px solid rgba(255,255,255,.03)}
+  table{width:100%;border-collapse:collapse;margin-top:8px}
+  th,td{padding:8px;border:1px solid rgba(255,255,255,.03);text-align:left}
+  .muted{color:var(--muted)}
+  .note{font-size:13px;color:var(--muted);background:rgba(255,255,255,.02);padding:10px;border-radius:8px;margin-top:8px}
+  .erd{display:block;margin:14px 0}
+  .quick{display:grid;gap:8px}
+  .kbd{background:#02162a;padding:6px 8px;border-radius:6px;border:1px solid rgba(255,255,255,.03);font-family:monospace}
+  footer{margin-top:18px;color:var(--muted);font-size:13px}
+  @media(max-width:920px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Phases of Software Engineering — Example: Student Management System</h1>
+      <p class="lead">SRS template, Entity-Relationship Diagram (ERD), sample code snippets, and quick revision notes — printable and editable.</p>
+    </div>
+  </header>
+
+  <nav>
+    <button class="btn" onclick="scrollToId('srs')">SRS</button>
+    <button class="btn" onclick="scrollToId('erd')">ER Diagram</button>
+    <button class="btn" onclick="scrollToId('design')">Design & HLD/LLD</button>
+    <button class="btn" onclick="scrollToId('coding')">Coding</button>
+    <button class="btn" onclick="scrollToId('testing')">Testing</button>
+    <button class="btn" onclick="scrollToId('maintenance')">Maintenance</button>
+    <button class="btn" onclick="scrollToId('quick')">Quick Notes</button>
+  </nav>
+
+  <div class="grid">
+    <main>
+
+      <section id="srs" class="card">
+        <h2>SRS (Software Requirements Specification) — Template & Example</h2>
+        <p class="muted">Project: <strong>Student Management System (SMS)</strong> — brief overview and key sections of an SRS.</p>
+
+        <h3>1. Introduction</h3>
+        <ul>
+          <li><strong>Purpose:</strong> Automate student records, marks, attendance and reporting for St. Peters University.</li>
+          <li><strong>Scope:</strong> Student enrollment, courses, grading, transcripts, admin dashboards, role-based access.</li>
+        </ul>
+
+        <h3>2. Functional Requirements (sample)</h3>
+        <table>
+          <thead><tr><th>ID</th><th>Requirement</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td>FR-01</td><td>Admin can create/update/delete student records</td><td>High</td></tr>
+            <tr><td>FR-02</td><td>Teacher can enter marks for students per subject</td><td>High</td></tr>
+            <tr><td>FR-03</td><td>System computes GPA and grades automatically</td><td>High</td></tr>
+            <tr><td>FR-04</td><td>Students can view their transcript</td><td>Medium</td></tr>
+          </tbody>
+        </table>
+
+        <h3>3. Non-Functional Requirements</h3>
+        <ul>
+          <li>Performance: 500 concurrent users supported, response time &lt; 2s for common queries.</li>
+          <li>Security: Role-based access, password hashing, HTTPS.</li>
+          <li>Availability: 99.5% uptime.</li>
+        </ul>
+
+        <h3>4. Use Cases (brief)</h3>
+        <ol>
+          <li>Enroll Student — Admin enters personal and course details → Student record created.</li>
+          <li>Enter Marks — Teacher selects class & subject → submits marks → system calculates grade.</li>
+          <li>View Transcript — Student logs in → views/downloads PDF transcript.</li>
+        </ol>
+
+        <div class="note">Tip: Keep the SRS concise but traceable — each FR should map to test cases and design modules.</div>
+      </section>
+
+      <section id="erd" class="card">
+        <h2>Entity-Relationship Diagram (ERD) — Example for SMS</h2>
+        <p class="muted">Entities: <strong>Student, Course, Enrollment, Teacher, Grade</strong></p>
+
+        <!-- Simple ERD drawn with SVG -->
+        <svg class="erd" viewBox="0 0 900 340" width="100%" height="340" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <style>.ent{fill:#071b2c;stroke:#2aa9b8;stroke-width:2}.label{fill:#cfeef1;font-family:Inter,Arial;font-size:13px}</style>
+          </defs>
+          <!-- Student -->
+          <rect x="20" y="40" width="180" height="80" rx="10" class="ent"/>
+          <text x="110" y="62" text-anchor="middle" class="label">Student</text>
+          <text x="40" y="86" class="label">student_id (PK)</text>
+          <text x="40" y="106" class="label">name, dob, email</text>
+
+          <!-- Course -->
+          <rect x="260" y="40" width="180" height="80" rx="10" class="ent"/>
+          <text x="350" y="62" text-anchor="middle" class="label">Course</text>
+          <text x="280" y="86" class="label">course_id (PK)</text>
+          <text x="280" y="106" class="label">title, credits</text>
+
+          <!-- Enrollment (assoc) -->
+          <rect x="520" y="40" width="220" height="80" rx="10" class="ent"/>
+          <text x="630" y="62" text-anchor="middle" class="label">Enrollment</text>
+          <text x="540" y="86" class="label">enroll_id (PK)</text>
+          <text x="540" y="106" class="label">student_id (FK), course_id (FK), semester</text>
+
+          <!-- Teacher -->
+          <rect x="20" y="200" width="200" height="70" rx="10" class="ent"/>
+          <text x="120" y="222" text-anchor="middle" class="label">Teacher</text>
+          <text x="40" y="246" class="label">teacher_id (PK), name, dept</text>
+
+          <!-- Grade -->
+          <rect x="260" y="200" width="200" height="70" rx="10" class="ent"/>
+          <text x="360" y="222" text-anchor="middle" class="label">Grade</text>
+          <text x="280" y="246" class="label">grade_id (PK), enroll_id (FK), marks, grade</text>
+
+          <!-- Relationships lines -->
+          <line x1="200" y1="80" x2="260" y2="80" stroke="#7fe3d9" stroke-width="2"/>
+          <text x="230" y="72" class="label">offers</text>
+
+          <line x1="440" y1="80" x2="520" y2="80" stroke="#7fe3d9" stroke-width="2"/>
+          <text x="480" y="72" class="label">includes</text>
+
+          <line x1="120" y1="120" x2="120" y2="200" stroke="#7fe3d9" stroke-width="2"/>
+          <text x="140" y="160" class="label">teaches</text>
+
+          <line x1="360" y1="240" x2="540" y2="120" stroke="#7fe3d9" stroke-width="2" marker-end="url(#arrow)"/>
+          <defs>
+            <marker id="arrow" markerWidth="10" markerHeight="10" refX="6" refY="5" orient="auto">
+              <path d="M0,0 L10,5 L0,10 z" fill="#7fe3d9"/>
+            </marker>
+          </defs>
+        </svg>
+
+        <div class="note">ERD tip: Mark primary keys (PK) and foreign keys (FK) clearly. Use an association (Enrollment) for many-to-many between Student &amp; Course.</div>
+      </section>
+
+      <section id="design" class="card">
+        <h2>Design — HLD &amp; LLD (High-level &amp; Low-level)</h2>
+        <h3>HLD (High Level)</h3>
+        <ul>
+          <li>Architecture: 3-tier (Client — Web Server — Database)</li>
+          <li>Modules: Authentication, Student Management, Course Management, Marks Processing, Reports</li>
+          <li>Data Stores: Relational DB (Postgres/MySQL), Redis for caching</li>
+        </ul>
+
+        <h3>LLD (Low Level)</h3>
+        <pre><code>// Sample function (pseudo-JS) to compute grade from marks
+function computeGrade(marks){
+  if(marks &gt;= 90) return 'A+';
+  if(marks &gt;= 80) return 'A';
+  if(marks &gt;= 70) return 'B';
+  if(marks &gt;= 60) return 'C';
+  return 'F';
+}
+        </code></pre>
+
+        <div class="note">LLD contains data structures, APIs, class diagrams and sequence diagrams for key flows (e.g., marking workflow).</div>
+      </section>
+
+      <section id="coding" class="card">
+        <h2>Coding — Sample snippets (Frontend + Backend)</h2>
+
+        <h3>HTML form (add student)</h3>
+        <pre><code>&lt;form id="addStudent" onsubmit="createStudent(event)"&gt;
+  &lt;input name="name" placeholder="Full name" required /&gt;
+  &lt;input name="email" type="email" required /&gt;
+  &lt;input name="dob" type="date" /&gt;
+  &lt;button&gt;Add Student&lt;/button&gt;
+&lt;/form&gt;
+        </code></pre>
+
+        <h3>Backend (Node.js — Express) — sample endpoint</h3>
+        <pre><code>// POST /students
+app.post('/students', async (req, res) =&gt; {
+  const { name, email, dob } = req.body;
+  // validate (LLD), insert into DB
+  const student = await DB.query('INSERT INTO student(name,email,dob) VALUES($1,$2,$3) RETURNING *', [name,email,dob]);
+  res.json(student.rows[0]);
+});
+        </code></pre>
+
+        <h3>Grade calculation (batch job)</h3>
+        <pre><code>// Cron job example (pseudo)
+// - fetch enrollments without grades
+// - compute grade using computeGrade()
+// - update Grade table and notify students
+        </code></pre>
+
+        <div class="note">Coding tip: Keep business logic in services, use migrations for DB schema, and write unit tests for computeGrade &amp; other business rules.</div>
+      </section>
+
+      <section id="testing" class="card">
+        <h2>Testing — Strategy &amp; Sample Test Cases</h2>
+        <h3>Types to include</h3>
+        <ul>
+          <li>Unit tests (computeGrade, validation)</li>
+          <li>Integration tests (API + DB)</li>
+          <li>System tests (end-to-end flows)</li>
+          <li>UAT (with actual users/teachers)</li>
+          <li>Performance &amp; Security tests</li>
+        </ul>
+
+        <h3>Sample Test Case (Compute Grade)</h3>
+        <table>
+          <thead><tr><th>TC ID</th><th>Description</th><th>Input</th><th>Expected</th></tr></thead>
+          <tbody>
+            <tr><td>TC-G1</td><td>Marks 85 → grade A</td><td>marks=85</td><td>grade='A'</td></tr>
+            <tr><td>TC-G2</td><td>Marks -1 → invalid</td><td>marks=-1</td><td>validation error</td></tr>
+          </tbody>
+        </table>
+
+        <div class="note">Traceability: Link each test case back to SRS requirement (e.g., FR-03) to satisfy audits and ensure coverage.</div>
+      </section>
+
+      <section id="maintenance" class="card">
+        <h2>Maintenance &amp; Deployment</h2>
+        <ul>
+          <li>Deployment: CI/CD pipeline, blue-green or rolling deploys</li>
+          <li>Monitoring: Prometheus/Grafana, logs, alerts</li>
+          <li>Maintenance types: Corrective, Adaptive, Perfective, Preventive</li>
+        </ul>
+        <div class="note">Plan for backups, schema migrations, and clear rollback strategy in case of faulty releases.</div>
+      </section>
+
+      <section id="quick" class="card">
+        <h2>Quick Revision Notes</h2>
+        <div class="quick">
+          <div><strong>SRS:</strong> Purpose, Scope, FR, NFR, Use Cases, Traceability Matrix.</div>
+          <div><strong>ERD:</strong> Identify entities, PK, FK, relationships (1-1,1-M,M-M), normalize to 3NF.</div>
+          <div><strong>Design:</strong> HLD = modules &amp; tech choices; LLD = functions, data structures, API signatures.</div>
+          <div><strong>Coding:</strong> Keep logic testable, follow SOLID, use migrations &amp; linting.</div>
+          <div><strong>Testing:</strong> Unit → Integration → System → UAT. Map tests to SRS IDs.</div>
+          <div><strong>Deployment:</strong> CI/CD, monitoring, automated backups.</div>
+        </div>
+      </section>
+
+      <footer>
+        <div>Made for quick learning — edit the SRS table and snippets to match your real project.</div>
+      </footer>
+
+    </main>
+
+    <aside>
+      <div class="card">
+        <h3>At-a-glance</h3>
+        <div class="muted">Phases</div>
+        <ol>
+          <li>Requirement Analysis (SRS)</li>
+          <li>Design (HLD/LLD, ERD)</li>
+          <li>Implementation (Coding)</li>
+          <li>Testing</li>
+          <li>Deployment & Maintenance</li>
+        </ol>
+        <div class="divider"></div>
+        <h3>ERD Legend</h3>
+        <div class="muted">PK = Primary Key • FK = Foreign Key • Enrollment = association table</div>
+        <div style="height:10px"></div>
+        <h3>Quick Commands</h3>
+        <div class="kbd">git clone &amp; npm install</div>
+        <div class="kbd">npm test</div>
+      </div>
+    </aside>
+  </div>
+</div>
+<script>
+function scrollToId(id){
+  const el = document.getElementById(id); if(!el) return; el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+</script>
+</body>
+</html>

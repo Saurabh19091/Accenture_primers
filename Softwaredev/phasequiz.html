@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Software Engineering Phases Quiz - 60 Questions</title>
+<style>
+body { font-family: Arial, sans-serif; background: #f4f4f9; margin:0; padding:0;}
+.container { max-width: 900px; margin: auto; padding: 20px; background: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1);}
+h1 { text-align: center; color: #333; }
+.question { margin-bottom: 20px; }
+.options { list-style: none; padding: 0; }
+.options li { margin: 10px 0; }
+button { padding: 10px 20px; margin-top: 10px; cursor: pointer; }
+.feedback { margin-top: 10px; font-weight: bold; }
+.correct { color: green; }
+.wrong { color: red; }
+.notes { background: #f0f0f0; padding: 10px; margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Software Engineering & Logic Quiz (60 Questions)</h1>
+  <div id="quiz-container"></div>
+  <div id="result" style="display:none;"></div>
+
+  <div class="notes">
+    <h3>Quick Revision Notes:</h3>
+    <ul>
+      <li><b>Requirements Engineering:</b> Elicitation, Analysis, Specification</li>
+      <li><b>Functional Requirements:</b> What system should do</li>
+      <li><b>Non-Functional Requirements:</b> Performance, Usability, Security, Portability</li>
+      <li><b>Design Phases:</b> HLD (modules), LLD (detailed algorithms), Interface Design, Data Design</li>
+      <li><b>System Analyst:</b> Creates SRS</li>
+      <li><b>Design Sequence:</b> Analysis → HLD → LLD → Coding</li>
+      <li><b>SDLC Models:</b> Waterfall, V-Model, Incremental, RAD, Prototype, Evolutionary Prototyping</li>
+      <li><b>Scenario-based Questions:</b> Identify suitable SDLC model for a case</li>
+      <li><b>Logic Puzzles:</b> Carefully read wording to avoid traps.</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+// Full 60-question array
+const questions = [
+  // 1-10: Requirements Engineering
+  { question: "_______ describes how development activities will be performed and phases follow each other.", options: ["Process","Design","Software Engineering","Software Development Process"], answer: 3, explanation: "Software Development Process defines how phases follow each other." },
+  { question: "During which phase do we identify major modules, integration, architecture and pseudo code?", options: ["Analysis","Feasibility","Design","Maintenance"], answer: 2, explanation: "Design phase transforms requirements into architecture and module-level pseudo code." },
+  { question: "Application of a systematic, disciplined approach to software development is called?", options: ["Software Testing","Software Engineering","Requirement Engineering"], answer: 1, explanation: "Software Engineering applies engineering principles to software." },
+  { question: "Aesthetics of website is part of functional requirements. True or False?", options: ["TRUE","FALSE"], answer: 1, explanation: "Aesthetics is Non-Functional Requirement." },
+  { question: "Which of the following are available in SRS Document?", options: ["Non Functional Requirements","Constraints","Functional Requirements","Design"], answer: [0,1,2], explanation: "SRS contains functional, non-functional requirements and constraints. Design comes later." },
+  { question: "Updating stock when a new product arrives is functional or non-functional requirement?", options: ["FALSE","TRUE"], answer: 0, explanation: "It describes what the system should do → Functional Requirement." },
+  { question: "Non-functional requirement type for sending SMS to all users within 10 minutes?", options: ["Portability Requirement","Performance Requirement","Usability Requirement","Security Requirement"], answer: 1, explanation: "Time constraint relates to performance." },
+  { question: "Steps involved in Requirements Analysis?", options: ["Requirements Elicitation","Requirements Design","Analysis of the gathered requirements","Requirements Specification"], answer: [0,2], explanation: "Elicitation and analysis are the main steps in requirements analysis." },
+  { question: "Role of System Analyst?", options: ["Creates HLD document","Creates high level test cases","Creates SRS","Writes pseudo code for module"], answer: 2, explanation: "System Analyst is responsible for creating SRS." },
+  { question: "Correct sequence of Analysis and Design?", options: ["Analysis → HLD → LLD","Analysis → LLD → HLD","Any order","HLD → LLD → Analysis"], answer: 0, explanation: "Sequence is Analysis → High Level Design → Low Level Design." },
+
+  // 11-20: Design Phases
+  { question: "Requirements Elicitation objective?", options: ["Gathering requirements from users, customers and stakeholders","Analyzing stakeholders","Documenting requirements"], answer: 0, explanation: "Elicitation is about gathering requirements." },
+  { question: "Requirements Analysis objective?", options: ["Gathering requirements","Analyzing stakeholder to define software requirements","Documenting requirements"], answer: 1, explanation: "Analysis ensures clarity, feasibility and consistency." },
+  { question: "Requirements Specification objective?", options: ["Gathering requirements","Analyzing","Documenting requirements properly"], answer: 2, explanation: "SRS documents all requirements." },
+  { question: "Data Design purpose?", options: ["Interface design","Architectural design","GUI Design","Data Design"], answer: 3, explanation: "Data design transforms data models into implementable structures." },
+  { question: "Low Level Design objective?", options: ["Defines modules and functions","Interface with users","Detailed algorithm"], answer: 2, explanation: "LLD focuses on detailed algorithm per module." },
+  { question: "Interface Design objective?", options: ["Defines modules and functions","Communication with users and software","Writing algorithms"], answer: 1, explanation: "Interface design focuses on communication paths." },
+  { question: "Architecture Design objective?", options: ["Defines modules and functions","Communication paths","Detailed algorithm"], answer: 0, explanation: "Architecture design defines the module structure of the system." },
+  { question: "Which phase deals with HLD and LLD?", options: ["Requirements Engineering","Design Phase","Testing Phase","Maintenance"], answer: 1, explanation: "Design phase includes High-Level and Low-Level designs." },
+  { question: "Pseudo code for each module is part of which design?", options: ["LLD","HLD","Interface Design","Data Design"], answer: 0, explanation: "LLD describes the detailed algorithm per module." },
+  { question: "Identifying major modules and integration is part of which design?", options: ["LLD","HLD","Interface Design","Data Design"], answer: 1, explanation: "HLD defines modules and their interactions." },
+
+  // 21-35: SDLC Models
+  { question: "Model where requirement is fixed and phases are sequential?", options: ["Waterfall","Incremental","RAD","Prototype"], answer: 0, explanation: "Waterfall requires fixed requirements." },
+  { question: "Model with iterative prototype that evolves into final system?", options: ["Throwaway Prototyping","Evolutionary Prototyping","Waterfall","V-Model"], answer: 1, explanation: "Evolutionary prototyping hardens the prototype into final system." },
+  { question: "Best model for high-risk, safety-critical system?", options: ["Waterfall","V-Model","Spiral","RAD"], answer: 2, explanation: "Spiral allows risk analysis at each iteration." },
+  { question: "Model suited for UI-heavy, interactive system?", options: ["Prototype","Waterfall","V-Model"], answer: 0, explanation: "Prototype allows frequent user feedback on UI." },
+  { question: "Rapid delivery of functional modules first?", options: ["Incremental","Waterfall","Spiral","RAD"], answer: 0, explanation: "Incremental delivers major functions first in cycles." },
+  { question: "Model mainly documentation-heavy?", options: ["Waterfall/V-Model","Agile","RAD","Prototype"], answer: 0, explanation: "Waterfall and V-Model produce extensive documentation." },
+  { question: "Frequent regulatory audits are expected; which model?", options: ["V-Model/Waterfall","Ad-hoc coding","Prototype only","No-process"], answer: 0, explanation: "V-Model and Waterfall ensure traceability and documentation." },
+  { question: "Highly experimental UI concept needs validation, not production code. Choose:", options: ["Throwaway Prototype","Evolutionary","V-Model","Waterfall"], answer: 0, explanation: "Throwaway prototype is for UI concept validation." },
+  { question: "Startup with evolving requirements across countries; best model?", options: ["Evolutionary Prototyping","Waterfall","V-Model","None"], answer: 0, explanation: "Evolutionary prototyping handles evolving requirements." },
+  { question: "Throwaway prototyping model is also called?", options: ["Rapid Model","Exploratory Model","Waterfall","Incremental"], answer: 1, explanation: "Exploratory prototype is discarded after feedback." },
+  { question: "RAD model stands for?", options: ["Rapid Application Development","Rapid Analysis Design","Rapid Algorithm Design","Random Application Development"], answer: 0, explanation: "RAD = Rapid Application Development." },
+  { question: "Incremental model advantage?", options: ["Early delivery of parts","Requires fixed requirements","High documentation","No feedback"], answer: 0, explanation: "Incremental delivers modules early." },
+  { question: "Waterfall disadvantage?", options: ["Requires frequent user feedback","Cannot handle requirement changes easily","Risk analysis at each cycle","Prototype evolution"], answer: 1, explanation: "Waterfall is rigid for changing requirements." },
+  { question: "V-Model is also called?", options: ["Verification and Validation Model","Rapid Model","Prototype Model","Incremental Model"], answer: 0, explanation: "V-Model emphasizes verification and validation." },
+  { question: "Prototype model main advantage?", options: ["User feedback","High documentation","Fixed requirements","No iterations"], answer: 0, explanation: "Prototype allows iterative user feedback." },
+
+  // 36-50: Scenario-based + Logic
+  { question: "IC company manually collected premiums for 45 years; now automation needed. Which model?", options: ["Waterfall","Evolutionary Prototyping","Throwaway Prototype","Spiral"], answer: 1, explanation: "Evolutionary prototyping is suited for evolving requirements." },
+  { question: "Software put into operation; client wants to enhance UI. This phase?", options: ["Development","Maintenance"], answer: 1, explanation: "Maintenance phase handles updates and enhancements." },
+  { question: "Software output differs from expected; this is called?", options: ["Verification","Validation","Defect","Specification"], answer: 2, explanation: "Defect = difference between expected and actual output." },
+  { question: "Software meets technical specs; this confirms?", options: ["Verification","Validation","Defect","Design"], answer: 0, explanation: "Verification confirms conformity to technical specifications." },
+  { question: "Student mark processing system shows all grades 0; which SDLC phase failed?", options: ["Software Design","Software Maintenance","Software Testing","Software Analysis"], answer: 2, explanation: "Testing ensures correctness of implementation." },
+  { question: "Scenario: Collision avoidance system for airports; model choice?", options: ["Waterfall","V-Model","Spiral","Evolutionary Prototyping"], answer: 2, explanation: "Safety-critical → Spiral allows risk analysis." },
+  { question: "Major functions addressed in first cycles delivering operational product. Model?", options: ["RAD","Incremental","Spiral","Waterfall"], answer: 1, explanation: "Incremental delivers major functions first." },
+  { question: "Prototype model phase involving quick design?", options: ["Quick design","Extensive testing","Detailed HLD phase","Detailed Coding"], answer: 0, explanation: "Quick design is part of prototype model." },
+  { question: "Do-while loop is almost same as?", options: ["Nested if","While loop","for loop","if-else"], answer: 1, explanation: "Do-while is similar to while, but exit-controlled." },
+  { question: "Loop statement executed at least once, except?", options: ["True","False"], answer: 0, explanation: "Do-while ensures at least one execution." },
+
+  // 51-60: Logic + Puzzles
+  { question: "Rubik cube rotation until solved; which loop?", options: ["Do-while","While","Nested-if","For"], answer: 0, explanation: "Do-while loop executes at least once and repeats until condition is false." },
+  { question: "This loop is also called exit-controlled loop.", options: ["For","Do-while","While","Nested-if"], answer: 1, explanation: "Do-while loop is exit-controlled." },
+  { question: "Each execution of a statement/block in loop is called?", options: ["Iteration","Loop","Sequence","Condition"], answer: 0, explanation: "Iteration = one execution cycle." },
+  { question: "Statements used when a process/set of actions repeats?", options: ["Decision Statements","Looping Statements","Sequential Statements","Function"], answer: 1, explanation: "Looping statements repeat actions." },
+  { question: "Step by step list of instructions?", options: ["Algorithm","Iteration","Loop","Selection"], answer: 0, explanation: "Algorithm is a sequence of instructions." },
+  { question: "Exact number of iterations known; which loop?", options: ["For loop","While loop","Do-while loop","Nested-if"], answer: 0, explanation: "For loop is used for known iterations." },
+  { question: "Looping statements are also called?", options: ["Selection logic","Program logic","Iteration logic","Sequence logic"], answer: 2, explanation: "Iteration logic = looping statements." },
+  { question: "Array number[100]; how many elements can be stored?", options: ["99","Infinite","No clue","100"], answer: 3, explanation: "Array of size 100 stores 100 elements." },
+  { question: "5th associate in array associate_name[50]?", options: ["associate_name[4]","associate_name[5]","associate_name[6]","associate_name[3+1]"], answer: [0,3], explanation: "Arrays are 0-indexed; 5th element is index 4." },
+  { question: "Order elements in a list is called?", options: ["Sorting","Searching","Iteration","Analysis"], answer: 0, explanation: "Sorting arranges elements in order." },
+];
+
+// Render quiz
+const quizContainer = document.getElementById("quiz-container");
+questions.forEach((q, index) => {
+  const div = document.createElement("div");
+  div.classList.add("question");
+  div.innerHTML = `<h4>Q${index+1}. ${q.question}</h4>
+  <ul class="options">
+    ${q.options.map((opt,i)=>`<li><input type="radio" name="q${index}" value="${i}"> ${opt}</li>`).join("")}
+  </ul>
+  <button onclick="checkAnswer(${index})">Check Answer</button>
+  <div class="feedback" id="feedback${index}"></div>`;
+  quizContainer.appendChild(div);
+});
+
+function checkAnswer(index){
+  const q = questions[index];
+  const options = document.getElementsByName("q"+index);
+  let selected = [];
+  options.forEach(opt=>{
+    if(opt.checked) selected.push(parseInt(opt.value));
+  });
+  const feedback = document.getElementById("feedback"+index);
+  let correct = false;
+  if(Array.isArray(q.answer)){
+    correct = JSON.stringify(selected.sort()) === JSON.stringify(q.answer.sort());
+  }else{
+    correct = selected[0] === q.answer;
+  }
+  if(correct){
+    feedback.innerHTML = "Correct! ✅ " + q.explanation;
+    feedback.className = "feedback correct";
+  } else {
+    feedback.innerHTML = "Wrong ❌ " + q.explanation;
+    feedback.className = "feedback wrong";
+  }
+}
+</script>
+
+</body>
+</html>

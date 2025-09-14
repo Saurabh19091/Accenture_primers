@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agile – Complete Quick Revision (English + Hindi)</title>
+  <style>
+    :root{
+      --bg:#0f172a;--panel:#0b1224;--ink:#e5e7eb;--muted:#9ca3af;--border:#1f2937;--accent:#38bdf8;--accent2:#22c55e;--warn:#f59e0b
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;height:100%;background:linear-gradient(180deg,var(--bg),#0a0f22);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+    header{position:sticky;top:0;z-index:10;background:rgba(15,23,42,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+    .wrap{max-width:1100px;margin:0 auto;padding:14px 16px}
+    .title{font-size:24px;margin:4px 0}
+    .sub{color:var(--muted);font-size:13px}
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+    button{border:1px solid var(--border);background:#0b152e;color:var(--ink);padding:8px 12px;border-radius:12px;cursor:pointer}
+    button.primary{background:var(--accent);color:#06212a;font-weight:700}
+    button.green{background:var(--accent2);color:#031b0f;font-weight:700}
+    main{max-width:1100px;margin:0 auto;padding:18px 16px}
+    .grid{display:grid;grid-template-columns:300px 1fr;gap:16px}
+    @media(max-width:1020px){.grid{grid-template-columns:1fr}}
+    nav{position:sticky;top:88px;align-self:start;background:linear-gradient(180deg,#0c142b,#0a1226);border:1px solid var(--border);border-radius:16px;padding:12px}
+    nav h3{margin:4px 0 10px;font-size:14px;color:var(--muted)}
+    nav a{display:block;padding:8px 10px;margin:4px 0;border-radius:10px;color:var(--ink);text-decoration:none;border:1px solid transparent}
+    nav a:hover{background:#0d1a35;border-color:var(--border)}
+    section.card{background:linear-gradient(180deg,#0d1328,#0a1226);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:16px;box-shadow:0 12px 30px rgba(0,0,0,.25)}
+    section.card h2{margin:0 0 8px;font-size:20px}
+    .en{margin:6px 0 0}
+    .hi{margin:6px 0 0;color:#ffd29f}
+    ul{margin:6px 0 2px 18px}
+    .pill{display:inline-block;border:1px solid var(--border);padding:2px 8px;border-radius:999px;font-size:12px;color:var(--muted)}
+    .kdb{font-family:ui-monospace,Menlo,Consolas,monospace;background:#0b1b2e;border:1px solid var(--border);padding:1px 6px;border-radius:6px}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media(max-width:700px){.grid-2{grid-template-columns:1fr}}
+    .tip{border-left:3px solid var(--accent);background:#081727;padding:10px;border-radius:8px;margin-top:10px}
+    .warn{border-left:3px solid var(--warn);background:#1a1406}
+    .badge{font-size:12px;color:#cbd5e1}
+    .muted{color:var(--muted)}
+    .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:8px 0}
+    .lang-toggle{display:flex;gap:8px;align-items:center}
+    .hideEN .en{display:none}
+    .hideHI .hi{display:none}
+    .mini{font-size:12px;color:#9ca3af}
+    .code{font-family:ui-monospace,Menlo,Consolas,monospace;background:#0b1a2d;border:1px dashed var(--border);padding:8px;border-radius:10px}
+    .chips{display:flex;gap:8px;flex-wrap:wrap}
+    .chip{border:1px solid var(--border);padding:4px 8px;border-radius:999px;font-size:12px;background:#0b152e}
+  </style>
+</head>
+<body class="">
+  <header>
+    <div class="wrap">
+      <div class="title">Agile – Complete Quick Revision <span class="pill">English + Hindi</span></div>
+      <div class="sub">Covers: Manifesto · 12 Principles · Scrum (roles/events/artifacts) · Kanban · XP · Lean · DSDM · Crystal · FDD · Estimation · Metrics · DevOps/DevSecOps · Config/Change Mgmt · Glossary · Exam Tips</div>
+      <div class="toolbar">
+        <div class="lang-toggle">
+          <span class="badge">Language:</span>
+          <button id="btnBoth" class="primary">Both</button>
+          <button id="btnEN">English</button>
+          <button id="btnHI">हिंदी</button>
+        </div>
+        <button id="expandAll">Expand all</button>
+        <button id="collapseAll">Collapse all</button>
+        <a href="#scrum" style="text-decoration:none"><button class="green">Jump to Scrum</button></a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="grid">
+      <nav>
+        <h3>Contents</h3>
+        <a href="#what">What is Agile?</a>
+        <a href="#manifesto">Agile Manifesto</a>
+        <a href="#principles">12 Principles</a>
+        <a href="#scrum" class="muted">Scrum – Roles · Events · Artifacts</a>
+        <a href="#kanban">Kanban</a>
+        <a href="#xp">Extreme Programming (XP)</a>
+        <a href="#lean">Lean Software Dev</a>
+        <a href="#dsdm">DSDM</a>
+        <a href="#crystal">Crystal</a>
+        <a href="#fdd">FDD</a>
+        <a href="#stories">User Stories & Acceptance</a>
+        <a href="#estimation">Estimation & Planning</a>
+        <a href="#metrics">Agile Metrics</a>
+        <a href="#devops">DevOps & DevSecOps</a>
+        <a href="#config">Configuration & Change Mgmt</a>
+        <a href="#glossary">Glossary (Quick)</a>
+        <a href="#exam">Exam Tips (Accenture Primer)</a>
+      </nav>
+
+      <div id="content">
+        <!-- WHAT -->
+        <section id="what" class="card" open>
+          <h2>What is Agile?</h2>
+          <p class="en">Agile is an <b>iterative</b> and <b>incremental</b> approach to building products focused on <b>customer value</b>, <b>collaboration</b>, and <b>adaptability to change</b>. Delivery happens in small, usable increments with frequent feedback.</p>
+          <p class="hi">Agile एक <b>दोहरावदार (iterative)</b> और <b>क्रमिक (incremental)</b> तरीका है जो <b>ग्राहक मूल्य</b>, <b>सहयोग</b> और <b>परिवर्तन के अनुसार अनुकूलन</b> पर केंद्रित होता है। छोटे-छोटे हिस्सों में जल्दी डिलीवरी और लगातार फीडबैक लिया जाता है।</p>
+          <div class="chips"><span class="chip">Iterative</span><span class="chip">Incremental</span><span class="chip">Customer feedback</span><span class="chip">Timeboxing</span></div>
+        </section>
+
+        <!-- MANIFESTO -->
+        <section id="manifesto" class="card">
+          <h2>Agile Manifesto (2001) – 4 Values</h2>
+          <div class="grid-2">
+            <div>
+              <ul class="en">
+                <li><b>Individuals & interactions</b> over processes & tools</li>
+                <li><b>Working software</b> over comprehensive documentation</li>
+                <li><b>Customer collaboration</b> over contract negotiation</li>
+                <li><b>Responding to change</b> over following a plan</li>
+              </ul>
+              <div class="tip en">Documentation is still important, but “just enough” to support delivery.</div>
+            </div>
+            <div>
+              <ul class="hi">
+                <li><b>व्यक्ति और संवाद</b> &gt; प्रक्रियाएँ और टूल</li>
+                <li><b>कार्यशील सॉफ़्टवेयर</b> &gt; विस्तृत दस्तावेज़</li>
+                <li><b>ग्राहक सहयोग</b> &gt; अनुबंध वार्ता</li>
+                <li><b>परिवर्तन के प्रति प्रतिक्रिया</b> &gt; योजना का पालन</li>
+              </ul>
+              <div class="tip hi">डॉक्यूमेंटेशन आवश्यक है, पर उतना ही जितना डिलीवरी में मदद करे।</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PRINCIPLES -->
+        <section id="principles" class="card">
+          <h2>12 Principles of Agile (Quick)</h2>
+          <div class="grid-2">
+            <ul class="en">
+              <li>Early & continuous delivery for customer <b>satisfaction</b></li>
+              <li><b>Welcome change</b>, even late</li>
+              <li>Deliver frequently (weeks)</li>
+              <li>Business & devs collaborate daily</li>
+              <li>Build around <b>motivated individuals</b></li>
+              <li>Face‑to‑face conversation is best</li>
+              <li>Working software is primary measure</li>
+              <li>Sustainable pace</li>
+              <li>Technical excellence & good design</li>
+              <li>Simplicity—maximize work not done</li>
+              <li>Self‑organizing teams</li>
+              <li>Regular reflection & adjustment</li>
+            </ul>
+            <ul class="hi">
+              <li>जल्दी और लगातार डिलीवरी से <b>ग्राहक संतुष्टि</b></li>
+              <li>देरी से भी आए बदलाव का <b>स्वागत</b></li>
+              <li>बार‑बार डिलीवरी (हफ्तों में)</li>
+              <li>बिज़नेस और डेवलपर <b>रोज़ सहयोग</b></li>
+              <li><b>प्रेरित व्यक्तियों</b> पर प्रोजेक्ट</li>
+              <li>सामना‑कर संवाद सर्वोत्तम</li>
+              <li>प्रगति का माप = कार्यशील सॉफ़्टवेयर</li>
+              <li>स्थायी गति</li>
+              <li>तकनीकी उत्कृष्टता, अच्छा डिज़ाइन</li>
+              <li>सरलता—अनावश्यक काम कम करें</li>
+              <li>स्व‑संगठित टीमें</li>
+              <li>नियमित समीक्षा व सुधार</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- SCRUM -->
+        <section id="scrum" class="card">
+          <h2>Scrum – Framework Overview</h2>
+          <p class="en">Scrum is an <b>iterative</b> framework using time‑boxed <b>Sprints</b> (1–4 weeks) to deliver a <b>potentially shippable Increment</b> each cycle.</p>
+          <p class="hi">Scrum एक <b>दोहरावदार</b> फ्रेमवर्क है जहाँ <b>Sprint</b> (1–4 सप्ताह) में हर बार <b>शिप करने योग्य Increment</b> दिया जाता है।</p>
+          <div class="divider"></div>
+          <div class="grid-2">
+            <div>
+              <h3>Roles</h3>
+              <ul class="en">
+                <li><b>Product Owner (PO)</b> – Maximizes product value, owns <span class="kdb">Product Backlog</span>.</li>
+                <li><b>Scrum Master (SM)</b> – Servant‑leader; removes impediments; coaches Scrum.</li>
+                <li><b>Developers</b> – Cross‑functional team building the Increment.</li>
+              </ul>
+              <ul class="hi">
+                <li><b>Product Owner</b> – मूल्य अधिकतम; <span class="kdb">Product Backlog</span> का स्वामी।</li>
+                <li><b>Scrum Master</b> – सेवक‑नेता; बाधाएँ हटाए; Scrum का कोच।</li>
+                <li><b>Developers</b> – क्रॉस‑फंक्शनल टीम जो Increment बनाती है।</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Artifacts</h3>
+              <ul class="en">
+                <li><b>Product Backlog</b> – Ordered list of needs (<i>Product Goal</i>).</li>
+                <li><b>Sprint Backlog</b> – Selected items + plan (<i>Sprint Goal</i>).</li>
+                <li><b>Increment</b> – Done, usable outcome meeting <i>Definition of Done</i>.</li>
+              </ul>
+              <ul class="hi">
+                <li><b>Product Backlog</b> – प्राथमिकता वाली सूची (<i>Product Goal</i> से जुड़ी)।</li>
+                <li><b>Sprint Backlog</b> – चयनित आइटम व योजना (<i>Sprint Goal</i>).</li>
+                <li><b>Increment</b> – <i>Definition of Done</i> पूरा करता कार्यशील परिणाम।</li>
+              </ul>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div class="grid-2">
+            <div>
+              <h3>Events (Ceremonies)</h3>
+              <ul class="en">
+                <li><b>Sprint</b> – 1–4 weeks, fixed length; no scope change that endangers Goal.</li>
+                <li><b>Sprint Planning</b> – Define <i>Why</i> (Goal), <i>What</i> (items), <i>How</i> (plan).</li>
+                <li><b>Daily Scrum</b> – 15‑min sync; inspect/adapt progress toward Goal.</li>
+                <li><b>Sprint Review</b> – Inspect Increment with stakeholders; adapt backlog.</li>
+                <li><b>Sprint Retrospective</b> – Inspect process; plan improvements.</li>
+                <li><b>Backlog Refinement</b> – Ongoing; clarify & split; estimate.</li>
+              </ul>
+              <ul class="hi">
+                <li><b>Sprint</b> – 1–4 सप्ताह; फिक्स लंबाई; Goal खतरे में हो तो स्कोप न बदलें।</li>
+                <li><b>Sprint Planning</b> – <i>क्यों</i> (Goal), <i>क्या</i> (आइटम), <i>कैसे</i> (योजना)।</li>
+                <li><b>Daily Scrum</b> – 15 मिनट समन्वय; प्रगति जाँच व अनुकूलन।</li>
+                <li><b>Sprint Review</b> – स्टेकहोल्डर संग Increment दिखाएं; बैकलॉग अनुकूलित।</li>
+                <li><b>Retrospective</b> – प्रक्रिया पर चिंतन; सुधार योजना।</li>
+                <li><b>Refinement</b> – निरंतर; स्पष्ट करना/तोड़ना; अनुमान।</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Definitions & Keys</h3>
+              <ul class="en">
+                <li><b>DoD</b>: Shared quality bar for “Done”.</li>
+                <li><b>DoR</b>: Ready to be started (clear, sized, AC).</li>
+                <li><b>INVEST</b> for stories: Independent, Negotiable, Valuable, Estimable, Small, Testable.</li>
+                <li><b>Timeboxing</b>: Fixed time, flexible scope.</li>
+              </ul>
+              <ul class="hi">
+                <li><b>DoD</b>: “Done” की साझा गुणवत्ता सीमा।</li>
+                <li><b>DoR</b>: शुरू करने योग्य (स्पष्ट, आंकी, AC).</li>
+                <li><b>INVEST</b>: Independent, Negotiable, Valuable, Estimable, Small, Testable.</li>
+                <li><b>Timeboxing</b>: समय फिक्स; स्कोप लचीला।</li>
+              </ul>
+            </div>
+          </div>
+          <div class="tip">Exam pointer: <span class="en">Scrum uses <b>Sprints</b>; Kanban uses <b>flow & WIP limits</b>.</span> <span class="hi">Scrum = <b>Sprint</b>; Kanban = <b>Flow व WIP सीमा</b>।</span></div>
+        </section>
+
+        <!-- KANBAN -->
+        <section id="kanban" class="card">
+          <h2>Kanban</h2>
+          <ul class="en">
+            <li>Visualize work on a board (To‑Do → Doing → Done).</li>
+            <li>Limit WIP to improve flow & reduce cycle time.</li>
+            <li>Pull system: start work only when capacity is free.</li>
+            <li>Measure flow: lead time, cycle time, throughput, CFD.</li>
+          </ul>
+          <ul class="hi">
+            <li>बोर्ड पर कार्य का विज़ुअलीकरण (To‑Do → Doing → Done)।</li>
+            <li>WIP सीमा से प्रवाह बेहतर और cycle time कम।</li>
+            <li>Pull सिस्टम: क्षमता खाली होने पर ही नया कार्य लें।</li>
+            <li>मापदंड: lead time, cycle time, throughput, CFD।</li>
+          </ul>
+        </section>
+
+        <!-- XP -->
+        <section id="xp" class="card">
+          <h2>Extreme Programming (XP)</h2>
+          <ul class="en">
+            <li>Practices: Pair programming, TDD, Continuous Integration, Refactoring, Simple design, Collective ownership.</li>
+            <li>Values: Communication, Simplicity, Feedback, Courage, Respect.</li>
+          </ul>
+          <ul class="hi">
+            <li>प्रैक्टिस: Pair programming, TDD, CI, Refactoring, Simple design, Collective ownership।</li>
+            <li>मूल्य: संचार, सरलता, फीडबैक, साहस, सम्मान।</li>
+          </ul>
+        </section>
+
+        <!-- LEAN -->
+        <section id="lean" class="card">
+          <h2>Lean Software Development</h2>
+          <ul class="en">
+            <li>Eliminate waste, Amplify learning, Decide as late as possible, Deliver as fast as possible, Empower the team, Build quality in, Optimize the whole.</li>
+          </ul>
+          <ul class="hi">
+            <li>व्यर्थ हटाएँ, सीख बढ़ाएँ, देर से निर्णय, तेज़ डिलीवरी, टीम को सशक्त करें, गुणवत्ता अंतर्निहित, पूरे सिस्टम का अनुकूलन।</li>
+          </ul>
+        </section>
+
+        <!-- DSDM -->
+        <section id="dsdm" class="card">
+          <h2>DSDM (Dynamic Systems Development Method)</h2>
+          <ul class="en">
+            <li>Iterative & incremental; strong stakeholder collaboration; timeboxed; MoSCoW prioritization.</li>
+            <li>Roles: Business Sponsor, Visionary, Ambassador; Solution Dev roles incl. Analyst/Designer; Technical Coordinator; Project Manager; Facilitator.</li>
+          </ul>
+          <ul class="hi">
+            <li>दोहरावदार व क्रमिक; स्टेकहोल्डर सहयोग; समय-सीमा; MoSCoW प्राथमिकता।</li>
+            <li>भूमिकाएँ: Business Sponsor, Visionary, Ambassador; Analyst/Designer; Technical Coordinator; Project Manager; Facilitator।</li>
+          </ul>
+        </section>
+
+        <!-- CRYSTAL -->
+        <section id="crystal" class="card">
+          <h2>Crystal</h2>
+          <ul class="en">
+            <li>Method family tuned by team size & criticality (e.g., Clear, Orange).</li>
+            <li>People & interactions first; lightweight process.</li>
+          </ul>
+          <ul class="hi">
+            <li>टीम आकार व जोखिम के अनुसार भिन्न रूप (Clear, Orange आदि)।</li>
+            <li>लोग व संवाद प्राथमिक; हल्की प्रक्रिया।</li>
+          </ul>
+        </section>
+
+        <!-- FDD -->
+        <section id="fdd" class="card">
+          <h2>FDD – Feature‑Driven Development</h2>
+          <ul class="en">
+            <li>Model domain → Build feature list → Plan by feature → Design by feature → Build by feature.</li>
+          </ul>
+          <ul class="hi">
+            <li>डोमेन मॉडल → फीचर सूची → फीचर योजना → फीचर डिज़ाइन → फीचर निर्माण।</li>
+          </ul>
+        </section>
+
+        <!-- STORIES -->
+        <section id="stories" class="card">
+          <h2>User Stories, Acceptance Criteria & Spikes</h2>
+          <div class="grid-2">
+            <div>
+              <ul class="en">
+                <li><b>Story</b>: As a <i>role</i>, I want <i>goal</i> so that <i>benefit</i>.</li>
+                <li><b>INVEST</b> & <b>Acceptance Criteria</b> (Given‑When‑Then) guide clarity and tests.</li>
+                <li><b>Epic</b> → large theme broken into stories; <b>Spike</b> → research/prototype to reduce uncertainty.</li>
+              </ul>
+              <ul class="hi">
+                <li><b>स्टोरी</b>: एक <i>भूमिका</i> के रूप में, मैं <i>उद्देश्य</i> चाहता/चाहती हूँ ताकि <i>लाभ</i> मिले।</li>
+                <li><b>INVEST</b> व <b>Acceptance Criteria</b> (Given‑When‑Then) स्पष्टता व टेस्टिंग हेतु।</li>
+                <li><b>Epic</b> → बड़ी थीम; <b>Spike</b> → शोध/प्रोटोटाइप से अनिश्चितता कम।</li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="mini">Definition of Ready (DoR)</h3>
+              <div class="tip">
+                <span class="en">Clear, estimated, small, AC present → ready to pull into Sprint.</span>
+                <span class="hi">स्पष्ट, आंका हुआ, छोटा, AC मौजूद → Sprint में लेने योग्य।</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ESTIMATION -->
+        <section id="estimation" class="card">
+          <h2>Estimation & Planning</h2>
+          <ul class="en">
+            <li><b>Relative estimation</b> with story points; <b>Planning Poker</b>.</li>
+            <li><b>Velocity</b> = points completed per sprint (for <i>forecast</i>, not target).</li>
+            <li><b>Release planning</b> via velocity and scope; <b>Timeboxing</b> fixes time, flexes scope.</li>
+          </ul>
+          <ul class="hi">
+            <li><b>सापेक्ष अनुमान</b> (story points); <b>Planning Poker</b>।</li>
+            <li><b>Velocity</b> = प्रति Sprint पूरे पॉइंट (पूर्वानुमान हेतु, लक्ष्य नहीं)।</li>
+            <li><b>रिलीज़ योजना</b> velocity व स्कोप से; <b>Timeboxing</b> समय फिक्स, स्कोप लचीला।</li>
+          </ul>
+        </section>
+
+        <!-- METRICS -->
+        <section id="metrics" class="card">
+          <h2>Agile Metrics & Charts</h2>
+          <ul class="en">
+            <li><b>Burndown</b> (remaining work ↓), <b>Burnup</b> (scope vs done ↑).</li>
+            <li>Lead time, Cycle time, Throughput; Cumulative Flow Diagram (CFD).</li>
+            <li>Defect rate, Escaped defects; Code coverage (with caution).</li>
+          </ul>
+          <ul class="hi">
+            <li><b>Burndown</b> (शेष कार्य), <b>Burnup</b> (कुल स्कोप बनाम पूरा)।</li>
+            <li>Lead/Cycle time, Throughput; CFD।</li>
+            <li>दोष दर, निकले दोष; कोड कवरेज (सावधानी से)।</li>
+          </ul>
+          <div class="tip warn"><span class="en">Beware vanity metrics; focus on outcomes & value.</span> <span class="hi">सिर्फ़ दिखावटी मीट्रिक से बचें; परिणाम व मूल्य पर ध्यान दें।</span></div>
+        </section>
+
+        <!-- DEVOPS -->
+        <section id="devops" class="card">
+          <h2>DevOps & DevSecOps</h2>
+          <ul class="en">
+            <li><b>DevOps</b>: Collaboration of Dev & Ops; CI/CD, automation, IaC, monitoring.</li>
+            <li><b>DevSecOps</b>: Security built‑in across pipeline (SAST/DAST, dependency scanning, policy as code).</li>
+          </ul>
+          <ul class="hi">
+            <li><b>DevOps</b>: Dev व Ops का सहयोग; CI/CD, ऑटोमेशन, IaC, मॉनिटरिंग।</li>
+            <li><b>DevSecOps</b>: पाइपलाइन में सुरक्षा समाहित (SAST/DAST, डिपेंडेंसी स्कैन, पॉलिसी‑एज़‑कोड)।</li>
+          </ul>
+        </section>
+
+        <!-- CONFIG MGMT -->
+        <section id="config" class="card">
+          <h2>Configuration & Change Management (Exam‑friendly)</h2>
+          <ul class="en">
+            <li><b>Baseline</b>: Approved snapshot; changes via control only.</li>
+            <li><b>Check‑out / Check‑in</b>: Get/update items from repo; <b>Sync/Merge</b> prevents overwrite.</li>
+            <li><b>Audit</b>: Verifies items match baselines; <b>CMDB</b> stores records.</li>
+            <li><b>Change Mgmt</b>: Propose → Assess → Approve → Implement → Review.</li>
+          </ul>
+          <ul class="hi">
+            <li><b>Baseline</b>: स्वीकृत स्नैपशॉट; बदलाव नियंत्रित प्रक्रिया से।</li>
+            <li><b>Check‑out / Check‑in</b>: रिपॉज़िटरी से लेना/चढ़ाना; <b>Sync/Merge</b> से ओवरराइट नहीं होता।</li>
+            <li><b>Audit</b>: बेसलाइन अनुरूपता जाँच; <b>CMDB</b> रिकॉर्ड भंडार।</li>
+            <li><b>Change Mgmt</b>: प्रस्ताव → आकलन → स्वीकृति → क्रियान्वयन → समीक्षा।</li>
+          </ul>
+        </section>
+
+        <!-- GLOSSARY -->
+        <section id="glossary" class="card">
+          <h2>Glossary (Quick)</h2>
+          <div class="grid-2">
+            <ul class="en">
+              <li><b>Sprint</b>: Time‑boxed iteration.</li>
+              <li><b>Backlog</b>: Ordered work list.</li>
+              <li><b>Velocity</b>: Points per sprint.</li>
+              <li><b>DoD</b>: Done quality bar.</li>
+              <li><b>DoR</b>: Ready criteria.</li>
+              <li><b>Spike</b>: Research task.</li>
+              <li><b>WIP</b>: Work‑in‑progress.</li>
+              <li><b>CFD</b>: Flow visualization.</li>
+            </ul>
+            <ul class="hi">
+              <li><b>Sprint</b>: समय‑सीमित iteration।</li>
+              <li><b>Backlog</b>: क्रमबद्ध कार्य सूची।</li>
+              <li><b>Velocity</b>: प्रति Sprint पॉइंट।</li>
+              <li><b>DoD</b>: ‘Done’ गुणवत्ता सीमा।</li>
+              <li><b>DoR</b>: ‘Ready’ मानदंड।</li>
+              <li><b>Spike</b>: शोध कार्य।</li>
+              <li><b>WIP</b>: प्रगति में कार्य।</li>
+              <li><b>CFD</b>: प्रवाह दृश्यांकन।</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- EXAM TIPS -->
+        <section id="exam" class="card">
+          <h2>Exam Tips (Accenture Primvers / Primer)</h2>
+          <ul class="en">
+            <li>Scrum ≠ Kanban: <b>Sprint</b> vs <b>Flow/WIP</b>.</li>
+            <li>XP relies on <b>team cohesiveness</b> (pair programming, TDD).</li>
+            <li>DSDM stresses <b>collaboration</b> and <b>MoSCoW</b>.</li>
+            <li>Use <b>DoD</b> for quality; <b>DoR</b> for readiness.</li>
+            <li>Baseline = authorized reference; changes via control.</li>
+            <li>Burndown shows remaining work; Burnup shows scope vs done.</li>
+          </ul>
+          <ul class="hi">
+            <li>Scrum बनाम Kanban: <b>Sprint</b> बनाम <b>Flow/WIP</b>।</li>
+            <li>XP = <b>टीम एकजुटता</b> पर निर्भर (pair programming, TDD)।</li>
+            <li>DSDM = <b>सहयोग</b> व <b>MoSCoW</b> प्राथमिकता।</li>
+            <li>गुणवत्ता हेतु <b>DoD</b>; तैयारी हेतु <b>DoR</b>।</li>
+            <li>Baseline = स्वीकृत संदर्भ; बदलाव नियंत्रित प्रक्रिया से।</li>
+            <li>Burndown = शेष कार्य; Burnup = स्कोप बनाम पूरा।</li>
+          </ul>
+          <div class="tip"><span class="en">Remember: Agile prefers <b>working software</b> & <b>customer collaboration</b> with <b>responding to change</b>.</span> <span class="hi">याद रखें: Agile में <b>कार्यशील सॉफ़्टवेयर</b>, <b>ग्राहक सहयोग</b> और <b>परिवर्तन के प्रति प्रतिक्रिया</b> को वरीयता है।</span></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Language toggles
+    const body = document.body;
+    document.getElementById('btnBoth').onclick = ()=>{ body.classList.remove('hideEN','hideHI'); };
+    document.getElementById('btnEN').onclick = ()=>{ body.classList.remove('hideHI'); body.classList.add('hideHI'); body.classList.remove('hideEN'); body.classList.add('hideHI'); body.classList.add('hideEN'); body.classList.remove('hideHI'); body.classList.add('hideHI'); body.classList.remove('hideEN'); body.classList.add('hideHI'); body.classList.add('hideEN'); body.classList.remove('hideHI'); body.classList.add('hideHI'); body.classList.add('hideEN'); };
+    // above got verbose due to safety; simplify:
+  </script>
+  <script>
+    const btnEN = document.getElementById('btnEN');
+    const btnHI = document.getElementById('btnHI');
+    const btnBoth = document.getElementById('btnBoth');
+
+    btnEN.addEventListener('click',()=>{
+      body.classList.add('hideHI');
+      body.classList.remove('hideEN');
+    });
+    btnHI.addEventListener('click',()=>{
+      body.classList.add('hideEN');
+      body.classList.remove('hideHI');
+    });
+    btnBoth.addEventListener('click',()=>{
+      body.classList.remove('hideEN','hideHI');
+    });
+
+    // Expand/Collapse All (convert all sections to details-like behavior)
+    const sections = Array.from(document.querySelectorAll('section.card'));
+    // make headers clickable to toggle
+    sections.forEach(sec=>{
+      const h2 = sec.querySelector('h2');
+      if(!h2) return;
+      h2.style.cursor='pointer';
+      const contentNodes = Array.from(sec.children).slice(1);
+      let collapsed = false;
+      const setDisplay = (show)=> contentNodes.forEach(n=> n.style.display = show? '' : 'none');
+      // default: show all
+      setDisplay(true);
+      h2.addEventListener('click',()=>{
+        collapsed=!collapsed; setDisplay(!collapsed);
+      });
+      sec._toggle = ()=>{ collapsed=!collapsed; setDisplay(!collapsed); };
+      sec._collapse = ()=>{ collapsed=true; setDisplay(false); };
+      sec._expand = ()=>{ collapsed=false; setDisplay(true); };
+    });
+
+    document.getElementById('expandAll').addEventListener('click',()=>sections.forEach(s=>s._expand()));
+    document.getElementById('collapseAll').addEventListener('click',()=>sections.forEach(s=>s._collapse()));
+  </script>
+</body>
+</html>

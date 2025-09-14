@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Generative AI — 135 MCQ Quiz</title>
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--muted:#9aa6b2;--accent:#7c3aed}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial;margin:0;background:linear-gradient(180deg,#071026 0%,#071a2b 70%);color:#e6eef6}
+    .wrap{max-width:1100px;margin:28px auto;padding:20px}
+    header{display:flex;gap:16px;align-items:center}
+    h1{margin:0;font-size:22px}
+    .meta{color:var(--muted);font-size:13px}
+    nav{margin-top:18px;display:flex;gap:8px;flex-wrap:wrap}
+    .part-btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:10px;cursor:pointer;color:var(--muted)}
+    .part-btn.active{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.12);color:#fff}
+    .card{background:rgba(255,255,255,0.02);border-radius:12px;padding:18px;margin-top:18px}
+    .question{padding:12px;border-radius:10px;margin-bottom:10px;background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));}
+    .q-text{font-weight:600}
+    .options{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+    .opt{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);cursor:pointer}
+    .opt.correct{background:rgba(34,197,94,0.18);border-color:rgba(34,197,94,0.35)}
+    .opt.wrong{background:rgba(236,72,153,0.14);border-color:rgba(236,72,153,0.35)}
+    .controls{display:flex;gap:8px;margin-top:12px;align-items:center}
+    .btn{padding:8px 12px;border-radius:8px;border:none;background:var(--accent);color:#fff;cursor:pointer}
+    .small{padding:6px 8px;font-size:13px}
+    .score{margin-left:auto;color:var(--muted)}
+    footer{margin-top:18px;color:var(--muted);font-size:13px}
+    @media(max-width:720px){.wrap{padding:12px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Generative AI — Comprehensive Quiz (135 MCQs)</h1>
+        <div class="meta">9 Parts · 15 questions each · Click an option to check — correct = green, wrong = pink</div>
+      </div>
+    </header>
+
+    <nav id="partsNav" aria-label="Quiz parts navigation"></nav>
+
+    <div id="content" aria-live="polite"></div>
+
+    <footer>
+      Tip: Use the buttons to navigate parts, view section score, or reveal all answers.
+    </footer>
+  </div>
+
+  <script>
+// --- quiz data (9 parts × 15 questions each)
+const quizParts = [
+  { title: 'Part 1 — Introduction to Generative AI', items:[
+      {q:'Generative AI primarily aims to:', o:['Classify inputs','Predict stock prices only','Create new data samples similar to training data','Only compress data'], a:2},
+      {q:'Which of these is NOT typically produced by generative models?', o:['Images','Labels for classification tasks','Music','Text'], a:1},
+      {q:'Learning a data distribution p(x) allows a model to:', o:['Compute p(y|x)','Sample new plausible data points','Only memorize training data','Always achieve perfect reconstruction'], a:1},
+      {q:'Which statement best contrasts discriminative and generative models?', o:['Discriminative models learn p(x), generative learn p(y|x)','Discriminative models learn p(y|x), generative learn p(x) or p(x,y)','They are identical','Generative models cannot be used for classification'], a:1},
+      {q:'Which is a common application of generative AI?', o:['Data augmentation','Direct OS kernel development','Manufacturing hardware','Network routing protocols'], a:0},
+      {q:'Generative AI that helps artists by suggesting concepts is an example of:', o:['Autonomous replacement','Creative tool / collaborator','Discriminative learning','Feature extraction only'], a:1},
+      {q:'A model that learns to produce plausible human faces has learned approximations of:', o:['p(y|x)','p(x)','loss landscapes only','an SVM decision boundary'], a:1},
+      {q:'Which capability is NOT typical of generative models?', o:['Simulation for training','Creating synthetic data','Guaranteed unbiased outputs','Art assistance'], a:2},
+      {q:'Which of the following is a risk specifically mentioned for generative AI?', o:['Deepfakes and misinformation','Faster compilers','Lower memory usage','Stable training always'], a:0},
+      {q:'Text generation, image generation and music generation are examples of:', o:['Discriminative tasks','Supervised regression','Generative tasks','Clustering tasks'], a:2},
+      {q:'Why is learning a distribution more powerful than memorizing examples?', o:['It guarantees exact copies','It allows sampling novel but plausible items','It reduces compute to zero','It avoids any bias automatically'], a:1},
+      {q:'Which of these is a direct benefit of synthetic data?', o:['Reduces need for any validation','Helps train models where real data is scarce','Removes need for GPUs','Ensures perfect model fairness'], a:1},
+      {q:'A generative model that outputs new molecules would be used in:', o:['Drug discovery','Network security','Compiler optimizations','Operating system design'], a:0},
+      {q:'Which term best describes creating content that resembles training data but is not identical?', o:['Overfitting','Generalization / generation','Discrimination','Regularization'], a:1},
+      {q:'Generative AI differs from classification because it focuses on:', o:['Label boundaries','Creating samples','Only supervised labels','Feature scaling'], a:1}
+    ]},
+  { title:'Part 2 — History & Foundations', items:[
+    {q:'Gaussian Mixture Models (GMMs) are examples of:', o:['Implicit models','Classical probabilistic models','Transformer-based models','Adversarial networks'], a:1},
+    {q:'Hidden Markov Models (HMMs) are especially useful for:', o:['Image synthesis','Sequence modeling like speech','Style transfer for images','Transformer pretraining'], a:1},
+    {q:'Which breakthrough enabled deep generative models to scale in the 2010s?', o:['Larger datasets and GPUs','Smaller datasets','Removal of backpropagation','Replacing neural nets with SVMs'], a:0},
+    {q:'The VAE paper was published by:', o:['Goodfellow et al.','Kingma & Welling','Vaswani et al.','Hinton alone'], a:1},
+    {q:'GANs introduced the idea of:', o:['Autoencoding','A generator vs a discriminator adversarial training','Self-attention','Reinforcement learning'], a:1},
+    {q:'“Attention Is All You Need” introduced:', o:['The GAN architecture','The Transformer architecture','LSTMs','Variational inference'], a:1},
+    {q:'Which year is commonly associated with the original GAN paper?', o:['2014','2005','2018','1999'], a:0},
+    {q:'Transformers replaced recurrence with:', o:['Convolutions','Self-attention','Markov chains','Decision trees'], a:1},
+    {q:'Which early model is probabilistic and explicitly models density?', o:['HMM','GAN','DCGAN','StyleGAN'], a:0},
+    {q:'VAEs are celebrated for:', o:['Perfect photorealism','Stable training and continuous latent spaces','No need for optimization','Replacing discriminative models'], a:1},
+    {q:'Which model family is known as “implicit density”?', o:['VAEs','Normalizing Flows','GANs','GMMs'], a:2},
+    {q:'The rise of LLMs was enabled by:', o:['Transformer scaling and massive text corpora','Only better activation functions','Elimination of GPUs','Decline of datasets'], a:0},
+    {q:'Which contribution is attributed to Goodfellow et al.?', o:['VAE','GAN','Transformer','LSTM'], a:1},
+    {q:'CycleGAN is notable because it can:', o:['Translate between image domains without paired data','Generate audio from text','Train without a discriminator','Solve PDEs analytically'], a:0},
+    {q:'Which development made sampling from complex distributions more practical?', o:['Normalizing Flows and invertible transforms','SVMs','Decision trees','Naive Bayes'], a:0}
+  ]},
+  // ... Parts 3..9 (kept same as original) 
+  { title:'Part 3 — ML & Neural Network Fundamentals', items:[
+    {q:'Machine Learning systems typically start with:', o:['Model deployment before data','Data collection','Hyperparameter search only','No data'], a:1},
+    {q:'A perceptron computes:', o:['A nonlinear combination without weights','A weighted sum plus activation','Only biases','Only gradients'], a:1},
+    {q:'Which activation is most used to mitigate vanishing gradients?', o:['Sigmoid','Tanh','ReLU','Linear'], a:2},
+    {q:'Backpropagation uses which calculus tool to compute gradients?', o:['Integral calculus','Chain rule','Taylor series','Fourier transform'], a:1},
+    {q:'Gradient descent updates weights to:', o:['Maximize loss','Minimize loss','Randomize weights','Always set weights to zero'], a:1},
+    {q:'Deep networks learn hierarchical features—early layers learn:', o:['High-level concepts only','Low-level features like edges','Model hyperparameters','Loss functions'], a:1},
+    {q:'Overfitting happens when the model:', o:['Generalizes well','Memorizes training data and performs poorly on new data','Never learns','Has too few parameters'], a:1},
+    {q:'Which is NOT an optimizer for neural networks?', o:['SGD','Adam','RMSProp','KNN'], a:3},
+    {q:'Dropout is used to:', o:['Improve inference speed','Regularize and reduce overfitting','Increase training dataset size','Convert supervised to unsupervised learning'], a:1},
+    {q:'Cross-entropy loss is most often used for:', o:['Regression','Classification tasks','Clustering','Feature selection'], a:1},
+    {q:'A bias term in a neuron is analogous to:', o:['Slope of a line only','Intercept in linear models','Activation function','Learning rate'], a:1},
+    {q:'Batch normalization primarily helps by:', o:['Removing the need for activation functions','Stabilizing and speeding up training','Making models deterministic','Creating new data'], a:1},
+    {q:'Which layer type is most common in image models?', o:['Dense only','Convolutional','RNN','k-NN layer'], a:1},
+    {q:'Transfer learning helps when:', o:['You have infinite labeled data','Data is limited and pretrained features help','You only use SVMs','You remove all hidden layers'], a:1},
+    {q:'An epoch means:', o:['One parameter update','One full pass over the training dataset','A single batch','Final test evaluation'], a:1}
+  ]},
+  { title:'Part 4 — Generative Model Taxonomy', items:[
+    {q:'Explicit density models provide:', o:['A formula for p(x)','Only samples without density','No sampling mechanism','Only discriminative outputs'], a:0},
+    {q:'Normalizing Flows are an example of:', o:['Implicit models','Tractable explicit models using invertible transforms','GAN variants','RNNs'], a:1},
+    {q:'Which model family does a VAE belong to?', o:['Implicit density models','Approximate explicit models','Reinforcement learning','Rule-based systems'], a:1},
+    {q:'Implicit models are characterized by:', o:['Providing closed-form p(x)','Direct sampling without explicit probability','Always having tractable likelihoods','Using Gaussian mixtures only'], a:1},
+    {q:'Which is a tractable explicit model?', o:['Basic Gaussian, some Normalizing Flows','GANs','VAEs','CycleGANs'], a:0},
+    {q:'Which approach approximates likelihoods using ELBO?', o:['GANs','VAEs','HMMs','SVMs'], a:1},
+    {q:'Sampling from an implicit model requires:', o:['Computing p(x) directly','Passing noise through a generator network','Solving an inverse problem analytically','Closed-form integrals'], a:1},
+    {q:'Which model gives exact likelihoods (when tractable)?', o:['Normalizing Flows','GANs','Standard VAEs','Implicit GANs'], a:0},
+    {q:'Which is an advantage of explicit density models?', o:['Always easier to train','They can evaluate likelihoods for samples','Fewer parameters always','No assumptions about data'], a:1},
+    {q:'An example of implicit modeling is:', o:['Variational approximation','Adversarial training','Tractable inversion','Bayesian posterior calculations'], a:1},
+    {q:'Which family is well-suited to likelihood-based anomaly detection?', o:['GANs (implicit)','Explicit density models','Only discriminative models','Rule engines'], a:1},
+    {q:'ELBO stands for:', o:['Evidence Lower Bound','Exact Latent Bayesian Objective','Enhanced Learning Bound','Eigenvalue Lower Bound'], a:0},
+    {q:'Which is a limitation of implicit models?', o:['No sampling','No way to compute likelihood easily','Always slow at generation','Always better reconstruction'], a:1},
+    {q:'Tractable models are useful because they allow:', o:['Direct density evaluation and likelihood comparisons','No need for training','Guaranteed perfect samples','No hyperparameters'], a:0},
+    {q:'VAEs, GANs and Flows are examples of:', o:['Only discriminative models','Different approaches to generative modeling','Hardware components','File formats'], a:1}
+  ]},
+  { title:'Part 5 — Variational Autoencoders (VAEs)', items:[
+    {q:'A standard autoencoder differs from a VAE because a VAE:', o:['Is deterministic','Encodes inputs as distributions (μ,σ)','Has no decoder','Never reconstructs inputs'], a:1},
+    {q:'The reparameterization trick allows:', o:['Sampling without blocking gradients','Exact analytical integrals always','Avoiding any randomness','Using RNNs instead'], a:0},
+    {q:'VAE loss includes reconstruction loss plus:', o:['Cross-entropy only','KL divergence between encoder distribution and prior','Adversarial loss','No other term'], a:1},
+    {q:'Sampling z = μ + σ ⊙ ε moves randomness to:', o:['Inside weights update','Outside network path to allow backprop','Always deterministic path','The decoder only'], a:1},
+    {q:'A common prior used in VAEs is:', o:['Uniform on [0,1]','Standard normal N(0,1)','Dirichlet with many components','No prior'], a:1},
+    {q:'VAEs typically produce images that are:', o:['Sharper than GANs','More blurry than GANs','Identical to training images','Only black and white'], a:1},
+    {q:'KL term in VAE encourages:', o:['Latent codes to match prior','Latent codes to diverge','Higher overfitting','Removing decoder'], a:0},
+    {q:'Advantages of VAEs include:', o:['Stability in training and meaningful latent space','Perfect photorealism','No hyperparameters','No need for decoder'], a:0},
+    {q:'Which is a limitation of VAEs?', o:['Always produce mode collapse','Assume a simple latent distribution like Gaussian','Cannot be combined with transformers','No sampling possible'], a:1},
+    {q:'In VAEs, the decoder maps from:', o:['Input x to μ','Latent z to data x̂','Gradient to loss','Weights to biases'], a:1},
+    {q:'ELBO maximization is equivalent to:', o:['Minimizing reconstruction only','Maximizing a lower bound on data likelihood','Training discriminator','Solving linear equations only'], a:1},
+    {q:'Choosing a too-large KL weight will typically:', o:['Reduce reconstruction quality to enforce structure','Improve sharpness always','Remove regularization','Break reparameterization trick'], a:0},
+    {q:'VAEs are useful for:', o:['Latent interpolation and data generation','Only classification tasks','Solving differential equations analytically','Database indexing'], a:0},
+    {q:'A well-structured latent space allows:', o:['Arbitrary discontinuous jumps','Smooth interpolation between samples','Guaranteed photorealism','Avoiding all biases'], a:1},
+    {q:'Which is true about VAE encoder output?', o:['A single scalar per input','Vectors of means and log-variances','No parameters','Only deterministic codes'], a:1}
+  ]},
+  { title:'Part 6 — Generative Adversarial Networks (GANs)', items:[
+    {q:'GANs train by:', o:['Supervised regression only','An adversarial game between generator and discriminator','Maximizing ELBO','Using RNNs only'], a:1},
+    {q:'Mode collapse means the generator:', o:['Outputs diverse samples','Produces limited types of outputs','Always wins the game','Does not use noise'], a:1},
+    {q:'If discriminator becomes too strong early, the generator may suffer from:', o:['Vanishing gradients','Perfect convergence','Faster sampling','Guaranteed diversity'], a:0},
+    {q:'DCGAN stands for a GAN variant optimized for:', o:['Text generation','Image generation using convolutional architectures','Tabular data only','Audio synthesis only'], a:1},
+    {q:'StyleGAN introduced:', o:['A style-based generator controlling details at different levels','Elimination of discriminator','RNN encoders','Exact likelihood computation'], a:0},
+    {q:'CycleGAN is primarily used for:', o:['Unpaired image-to-image translation','Conditional text generation','Improving VAEs','Speech recognition'], a:0},
+    {q:'The generator maps noise z to:', o:['A probability density formula','A synthetic data sample G(z)','A true data point from the dataset','A loss value'], a:1},
+    {q:'Adversarial loss tries to make discriminator output for generated samples:', o:['Close to 0 (fake)','Close to 1 (real)','Exactly -1','Undefined'], a:1},
+    {q:'A typical fix for mode collapse is:', o:['Careful architecture choices, regularization, or alternative losses','Deleting the discriminator entirely','Using smaller batches only','No training at all'], a:0},
+    {q:'GANs are categorized as:', o:['Explicit density models','Implicit density models','Supervised classifiers','Rule-based systems'], a:1},
+    {q:'Which is a common component of GAN training to stabilize it?', o:['Batch normalization and careful learning rates','Removing noise','Using sigmoid only','No discriminator updates'], a:0},
+    {q:'Which GAN variant gives control over style at multiple scales?', o:['VAE','StyleGAN','HMM','Normalizing Flow'], a:1},
+    {q:'Discriminator\'s role is to:', o:['Generate images','Classify inputs as real or fake','Compute ELBO','Encode latent vectors'], a:1},
+    {q:'GAN training objective is best described as:', o:['Supervised regression','Minimax optimization','Single-player optimization','Clustering objective'], a:1},
+    {q:'A challenge when training GANs is:', o:['Never any convergence issues','Sensitivity to hyperparameters and oscillations','No need for GPUs','Automatic perfect quality'], a:1}
+  ]},
+  { title:'Part 7 — Sequence Models (RNN/LSTM/GRU)', items:[
+    {q:'RNNs maintain memory via:', o:['A hidden state passed across time steps','External databases','Batch normalization only','ELBO terms'], a:0},
+    {q:'Vanishing gradient makes it hard to learn:', o:['Short-term dependencies only','Long-range dependencies in sequences','Image edges','Latent codes'], a:1},
+    {q:'LSTM introduces which mechanism to control information?', o:['Attention only','Gating (forget, input, output gates)','Convolutions','GAN adversaries'], a:1},
+    {q:'GRU differs from LSTM by:', o:['Having more gates','Being simpler with fewer gates','Using convolutional cells','Being non-recurrent'], a:1},
+    {q:'Sequence generation can be performed by training models to predict:', o:['Previous token given next','Next token given previous tokens','Labels only','Loss functions'], a:1},
+    {q:'Teacher forcing is a training technique where:', o:['Model is given ground-truth previous tokens during training','Model is never updated','Only use reinforcement learning','Always use GANs'], a:0},
+    {q:'Which is a limitation of RNNs compared to Transformers?', o:['Parallelization and long-range learning','Ability to handle small sequences','Usefulness on text','Being neural networks'], a:0},
+    {q:'RNN backpropagation through time requires:', o:['Only single-step gradients','Unrolling the network across time steps','No memory','Closed-form solutions'], a:1},
+    {q:'Applications of sequence models include:', o:['Time-series forecasting and language modeling','Only image classification','Static clustering','Hash table design'], a:0},
+    {q:'Beam search is used in generation to:', o:['Find top-k likely sequences approximately','Compute exact integrals','Train discriminators','Normalize inputs'], a:0},
+    {q:'Scheduled sampling mixes:', o:['Only reinforcement signals','Model predictions and ground-truth tokens during training','ELBO and adversarial losses','Two discriminators'], a:1},
+    {q:'An RNN cell output depends on:', o:['Only current input','Current input and previous hidden state','Only previous input','No inputs'], a:1},
+    {q:'Which cell is computationally lighter?', o:['LSTM','GRU','Transformer encoder','VAE encoder'], a:1},
+    {q:'Sequence-to-sequence (seq2seq) models typically have:', o:['Only a decoder','An encoder and a decoder','No neural components','Two discriminators'], a:1},
+    {q:'Teacher forcing can lead to:', o:['Exposure bias at inference time','Perfect robustness','No need for evaluation','Faster inference always'], a:0}
+  ]},
+  { title:'Part 8 — Transformers & Attention', items:[
+    {q:'Self-attention allows tokens to:', o:['Only attend to their immediate neighbor','Attend to all tokens in the sequence','Ignore other tokens','Compute ELBO directly'], a:1},
+    {q:'Positional encoding provides:', o:['Model weights','A sense of token order to the model','A new activation function','A training optimizer'], a:1},
+    {q:'Multi-head attention helps by:', o:['Computing the same attention repeatedly','Learning multiple types of relationships in parallel','Removing the need for encoders','Guaranteeing perfect generalization'], a:1},
+    {q:'Transformers are more parallelizable than RNNs because:', o:['They remove recurrence and process sequences simultaneous','They use smaller models','They use GPUs only','They use SVMs internally'], a:0},
+    {q:'Decoder-only models like GPT are trained to:', o:['Predict masked tokens bidirectionally','Predict next-token in an autoregressive fashion','Compute exact likelihoods always','Implement HMMs'], a:1},
+    {q:'BERT is primarily used for:', o:['Text generation','Understanding tasks like classification and QA','Image generation','Training discriminators'], a:1},
+    {q:'Transformer encoder blocks include:', o:['Self-attention + feed-forward layers','Only LSTM cells','Only convolutional layers','No nonlinearities'], a:0},
+    {q:'Masked self-attention prevents a token from attending to:', o:['All tokens','Future tokens during autoregressive generation','Past tokens only','Its own embedding'], a:1},
+    {q:'Scaling transformers (more params + data) led to:', o:['Emergence of strong few/zero-shot capabilities','Smaller vocabulary always','Removal of attention','Instant training'], a:0},
+    {q:'A positional encoding can be:', o:['Learned or fixed sinusoidal','Only learned with random numbers','A type of optimizer','Irrelevant for order'], a:0},
+    {q:'Which model is decoder-only?', o:['BERT','GPT','Both BERT and GPT','Neither'], a:1},
+    {q:'Attention scores are computed from queries, keys and values using:', o:['Element-wise product followed by softmax','Dot-products and softmax (scaled)','Only LeakyReLU','Only KL divergence'], a:1},
+    {q:'Transformer attention is typically multi-head to:', o:['Reduce model parameters','Capture different relations using different projection subspaces','Remove positional info','Enforce Gaussian priors'], a:1},
+    {q:'Encoder-decoder transformers are commonly used for:', o:['Machine translation and conditional generation','Unsupervised clustering only','Training GANs','Image denoising with VAEs only'], a:0},
+    {q:'Which is an advantage of Transformers over RNNs?', o:['Better at long-range dependencies and parallel training','Require sequential computation only','Always fewer params','No need for GPUs'], a:0}
+  ]},
+  { title:'Part 9 — Applications, Ethics & Future', items:[
+    {q:'Generative AI in healthcare can help by:', o:['Generating synthetic medical images for augmentation','Replacing doctors entirely','Creating irreproducible science','Avoiding regulatory review'], a:0},
+    {q:'In drug discovery generative models can:', o:['Design novel molecular structures','Guarantee human trials success','Replace lab experiments entirely','Provide exact dosages without testing'], a:0},
+    {q:'A major ethical risk of generative AI is:', o:['Improved dataset size only','Misinformation and deepfakes','Reduced compute costs','Guaranteed unbiased models'], a:1},
+    {q:'Which practice helps reduce model bias?', o:['Careful data curation and auditing','Ignoring training data','Only using smaller models','Never using validation data'], a:0},
+    {q:'Copyright concerns arise because models may:', o:['Train only on public domain data','Reproduce or remix copyrighted works from training data','Always remove copyrighted content','Automatically clear rights'], a:1},
+    {q:'Responsible deployment includes:', o:['Transparency, monitoring and human oversight','No testing','Unlimited release without guardrails','Replacing human oversight entirely'], a:0},
+    {q:'Which industry widely uses generative AI for creative media?', o:['Agriculture only','Advertising, entertainment and design','Only aerospace','Only compiler development'], a:1},
+    {q:'Data augmentation via generative models mainly helps to:', o:['Reduce model capacity','Increase effective data diversity','Eliminate test sets','Remove need for evaluation'], a:1},
+    {q:'Regulation and policy are needed because:', o:['Models are trivial to interpret','Harm can be widespread and hard to control','There is no public interest','They reduce compute automatically'], a:1},
+    {q:'A practical mitigation for deepfakes is:', o:['Detection models and provenance tracking','Never publishing any images','Removing GPUs','Relying only on manual checks always'], a:0},
+    {q:'Multi-modal generative models combine:', o:['Only text and rules','Text, images, audio and other modalities','Hardware sensors only','Only GANs'], a:1},
+    {q:'Job displacement risk suggests:', o:['Workforce transitions and reskilling policies are important','No changes are needed','Immediate mass layoffs','All jobs vanish overnight'], a:0},
+    {q:'Which direction is important for future generative AI?', o:['More controllable, reliable and multimodal systems','Less interpretability','Larger unregulated releases with no oversight','No alignment efforts'], a:0},
+    {q:'Intellectual property questions involve:', o:['Who owns AI-generated content and training data usage','Only model architectures','Only optimizer choices','No legal concerns'], a:0},
+    {q:'When deploying a generative model for production, you should:', o:['Skip monitoring','Implement monitoring, rate-limits, and human-in-the-loop','Train once and forget','Never evaluate outputs'], a:1}
+  ]}
+];
+
+// --- Render logic (robust, avoids global query issues)
+const partsNav = document.getElementById('partsNav');
+const content = document.getElementById('content');
+let activePart = 0;
+
+function createPartButton(i,title){
+  const b = document.createElement('button');
+  b.className='part-btn'+(i===0? ' active':'');
+  b.textContent = title;
+  b.addEventListener('click',()=>{document.querySelectorAll('.part-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');activePart=i;renderPart(i)});
+  return b;
+}
+quizParts.forEach((p,i)=>partsNav.appendChild(createPartButton(i,p.title)));
+
+function renderPart(idx){
+  content.innerHTML='';
+  const part = quizParts[idx];
+  const card = document.createElement('div'); card.className='card';
+
+  const headerRow = document.createElement('div'); headerRow.style.display='flex'; headerRow.style.alignItems='center';
+  const title = document.createElement('h2'); title.textContent = part.title; title.style.margin='0'; title.style.fontSize='18px';
+  const scoreSpan = document.createElement('div'); scoreSpan.className='score'; scoreSpan.textContent = `Score: 0/${part.items.length}`;
+  headerRow.appendChild(title); headerRow.appendChild(scoreSpan);
+  card.appendChild(headerRow);
+
+  // track answers for this part
+  const answered = new Array(part.items.length).fill(null); // null | chosenIndex
+
+  part.items.forEach((it,qi)=>{
+    const qwrap = document.createElement('div'); qwrap.className='question';
+    const qtxt = document.createElement('div'); qtxt.className='q-text'; qtxt.textContent = `${qi+1}. ${it.q}`;
+    const opts = document.createElement('div'); opts.className='options'; opts.dataset.qi = qi;
+
+    it.o.forEach((opt,oi)=>{
+      const div = document.createElement('div'); div.className='opt'; div.tabIndex=0; div.textContent = `${String.fromCharCode(65+oi)}. ${opt}`;
+      div.addEventListener('click',()=>{
+        if(answered[qi] !== null) return; // already answered
+        answered[qi] = oi;
+        // mark options
+        Array.from(opts.children).forEach((n,i)=>{
+          n.style.pointerEvents='none';
+          if(i === it.a) n.classList.add('correct');
+          if(i === oi && i !== it.a) n.classList.add('wrong');
+        });
+        updateScoreFromArray();
+      });
+      opts.appendChild(div);
+    });
+
+    qwrap.appendChild(qtxt); qwrap.appendChild(opts);
+
+    const ctrl = document.createElement('div'); ctrl.className='controls';
+    const reveal = document.createElement('button'); reveal.className='btn small'; reveal.textContent='Reveal Answer';
+    reveal.addEventListener('click',()=>{
+      if(answered[qi] !== null) return;
+      answered[qi] = 'revealed';
+      Array.from(opts.children).forEach((n,i)=>{ n.style.pointerEvents='none'; if(i===it.a) n.classList.add('correct'); });
+      updateScoreFromArray();
+    });
+    ctrl.appendChild(reveal);
+    qwrap.appendChild(ctrl);
+
+    card.appendChild(qwrap);
+  });
+
+  // bottom controls
+  const bottom = document.createElement('div'); bottom.style.display='flex'; bottom.style.gap='8px'; bottom.style.marginTop='12px';
+  const showAll = document.createElement('button'); showAll.className='btn'; showAll.textContent='Reveal all answers';
+  showAll.addEventListener('click',()=>{
+    part.items.forEach((it,qi)=>{
+      if(answered[qi] === null){
+        answered[qi] = 'revealed';
+        const qEls = card.querySelectorAll('.question');
+        const opts = qEls[qi].querySelectorAll('.opt');
+        opts.forEach((n,i)=>{ n.style.pointerEvents='none'; if(i===it.a) n.classList.add('correct'); });
+      }
+    });
+    updateScoreFromArray();
+  });
+  const reset = document.createElement('button'); reset.className='btn small'; reset.textContent='Reset section'; reset.style.background='#334155';
+  reset.addEventListener('click',()=>renderPart(idx));
+  bottom.appendChild(showAll); bottom.appendChild(reset);
+  card.appendChild(bottom);
+
+  // scoring helper uses the local answered array and updates the scoreSpan
+  function updateScoreFromArray(){
+    let correct=0; let total = part.items.length;
+    answered.forEach((val,qi)=>{
+      if(val === null) return;
+      if(val === 'revealed') return; // revealed doesn't count as correct
+      if(val === part.items[qi].a) correct++;
+    });
+    scoreSpan.textContent = `Score: ${correct}/${total}`;
+  }
+
+  content.appendChild(card);
+}
+
+// initial render
+renderPart(0);
+
+</script>
+</body>
+</html>

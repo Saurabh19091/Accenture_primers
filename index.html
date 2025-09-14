@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accenture Primers</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    header {
+      background: #003366;
+      color: white;
+      padding: 20px;
+    }
+    h1 {
+      margin: 0;
+    }
+    .container {
+      margin: 30px auto;
+      max-width: 900px;
+    }
+    .section {
+      margin-bottom: 40px;
+    }
+    h2 {
+      color: #003366;
+      margin-bottom: 15px;
+    }
+    .card {
+      display: inline-block;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin: 15px;
+      width: 220px;
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card h3 {
+      margin-top: 0;
+      color: #444;
+    }
+    .btn {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background: #003366;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+      text-decoration: none;
+    }
+    .btn:hover {
+      background: #0055aa;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Accenture Primers</h1>
+  <p>Choose Essentials or Electives to Start Learning</p>
+</header>
+
+<div class="container">
+
+  <!-- Essentials Section -->
+  <div class="section">
+    <h2>Essentials</h2>
+    <div class="card">
+      <h3>Web Tech</h3>
+      <a href="webtech_quiz.html" class="btn">Quiz</a>
+      <a href="webtech_revision.html" class="btn">Quick Revision</a>
+    </div>
+    <div class="card">
+      <h3>Java</h3>
+      <a href="java_quiz.html" class="btn">Quiz</a>
+      <a href="java_revision.html" class="btn">Quick Revision</a>
+    </div>
+    <div class="card">
+      <h3>MySQL</h3>
+      <a href="mysql_quiz.html" class="btn">Quiz</a>
+      <a href="mysql_revision.html" class="btn">Quick Revision</a>
+    </div>
+    <div class="card">
+      <h3>AWS</h3>
+      <a href="/aws/quiz.html" class="btn">Quiz</a>
+      <a href="/aws/s3.html" class="btn">Quick Revision</a>
+    </div>
+  </div>
+
+  <!-- Electives Section -->
+  <div class="section">
+    <h2>Electives</h2>
+    <div class="card">
+      <h3>Agile</h3>
+      <a href="/Agile_Dvops/agile.html" class="btn">Quiz</a>
+      <a href="/Agile_Dvops/agilerevison.html" class="btn">Quick Revision</a>
+    </div>
+    <div class="card">
+      <h3>DevOps</h3>
+      <a href="devops_quiz.html" class="btn">Quiz</a>
+      <a href="devops_revision.html" class="btn">Quick Revision</a>
+    </div>
+    <div class="card">
+      <h3>GenAI</h3>
+      <a href="/genai/gen.html" class="btn">Quiz</a>
+      <a href="genai_revision.html" class="btn">Quick Revision</a>
+    </div>
+    <div class="card">
+      <h3>SDLC</h3>
+      <a href="/Softwaredev/sdlc.html" class="btn">Quiz</a>
+      <a href="genai_revision.html" class="btn">Quick Revision</a>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SDLC Mega Quiz + Quick Notes (60 MCQs)</title>
+<style>
+  :root{
+    --bg:#0b1020; --panel:#0f1730; --ink:#e8ecf8; --muted:#aab3c9; --accent:#7c3aed;
+    --ok:#10b981; --bad:#ef4444; --border:#243048; --card:#111831; --chip:#1b2545;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:linear-gradient(180deg,#0b1020,#0a0f1e 60%);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;}
+  header{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,#0f1730,#0d1327);border-bottom:1px solid var(--border);}
+  .wrap{max-width:1100px;margin:0 auto;padding:14px 16px}
+  h1{font-size:clamp(20px,3vw,28px);margin:6px 0 10px 0;letter-spacing:.2px}
+  .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  select,input[type="search"]{background:var(--chip);border:1px solid var(--border);color:var(--ink);padding:10px 12px;border-radius:14px;outline:0}
+  button{background:var(--accent);border:none;color:white;padding:10px 14px;border-radius:14px;cursor:pointer;transition:.2s transform ease, .2s opacity ease}
+  button:hover{transform:translateY(-1px)}
+  .ghost{background:transparent;border:1px solid var(--border);color:var(--ink)}
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+  .left{grid-column:span 8}
+  .right{grid-column:span 4}
+  @media(max-width:960px){.left,.right{grid-column:span 12}}
+
+  /* Question cards */
+  .card{background:linear-gradient(180deg,#101935,#0d152d);border:1px solid var(--border);border-radius:18px;padding:16px;box-shadow:0 8px 30px rgba(3,10,30,.25)}
+  .qid{font-size:12px;color:var(--muted);letter-spacing:.4px}
+  .qtext{font-size:18px;margin:6px 0 10px 0}
+  .badge{display:inline-flex;align-items:center;gap:6px;background:var(--chip);border:1px solid var(--border);color:var(--ink);padding:4px 10px;border-radius:999px;font-size:12px}
+  .opts{display:grid;gap:8px;margin-top:10px}
+  .opt{padding:12px 12px;border-radius:12px;background:#0e1836;border:1px solid var(--border);cursor:pointer}
+  .opt:hover{background:#0f1b40}
+  .opt[disabled]{opacity:.55;cursor:not-allowed}
+  .opt.correct{border-color:rgba(16,185,129,.5);background:rgba(16,185,129,.09)}
+  .opt.wrong{border-color:rgba(239,68,68,.5);background:rgba(239,68,68,.08)}
+  .explain{margin-top:10px;padding:10px 12px;border-left:3px solid var(--accent);background:#0f1836;border:1px solid var(--border);border-radius:10px}
+
+  /* Sidebar */
+  .panel{position:sticky;top:76px}
+  .kcard{background:linear-gradient(180deg,#0f1730,#0b132a);border:1px solid var(--border);border-radius:18px;padding:14px}
+  .kcard h3{margin:6px 0 10px 0}
+  .list{display:grid;gap:8px}
+  .chip{display:inline-block;background:var(--chip);border:1px solid var(--border);padding:6px 10px;border-radius:999px;color:var(--muted);font-size:12px}
+  .bar{height:10px;border-radius:999px;background:#131a33;border:1px solid var(--border);overflow:hidden}
+  .bar>span{display:block;height:100%;width:0;background:linear-gradient(90deg,#7c3aed,#3b82f6,#06b6d4)}
+  .muted{color:var(--muted)}
+  .note{background:#0c152f;border:1px solid var(--border);border-radius:14px;padding:12px;margin:10px 0}
+  .small{font-size:13px}
+  .divider{height:1px;background:linear-gradient(90deg,transparent,#243048,transparent);margin:10px 0}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>SDLC Mega Quiz (60 MCQs) + Quick Notes — Waterfall • V-Model • Prototype • Evolutionary • Incremental • Iterative • Spiral • Agile • RAD</h1>
+    <div class="controls">
+      <select id="filter">
+        <option>All</option>
+        <option>Theory</option>
+        <option>Scenario</option>
+      </select>
+      <input id="search" type="search" placeholder="Search question text… (e.g., risk, RAD, UI)" />
+      <button id="shuffle" class="ghost">Shuffle</button>
+      <button id="reset">Reset Quiz</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="grid" style="margin-top:10px">
+    <section class="left">
+      <div id="questions" class="list"></div>
+    </section>
+
+    <aside class="right">
+      <div class="panel">
+        <div class="kcard" id="scoreCard">
+          <h3>Progress</h3>
+          <div class="small muted" id="stats">0 / 60 answered • 0 correct</div>
+          <div class="bar" style="margin-top:8px"><span id="progress"></span></div>
+          <div class="note small">
+            <strong>How it works:</strong> Click an option. Wrong turns <span style="color:var(--bad)">red</span>, right turns <span style="color:var(--ok)">green</span>. Explanation shows after your first attempt.
+          </div>
+        </div>
+        <div class="kcard" style="margin-top:16px">
+          <h3>Quick Notes — SDLC at a Glance</h3>
+          <div class="note small"><strong>Waterfall:</strong> Fixed, well-defined requirements. Linear phases. Pro: simple/traceable. Con: costly changes.</div>
+          <div class="note small"><strong>V-Model:</strong> Waterfall + test phase mapped to each dev phase. For safety/quality critical.</div>
+          <div class="note small"><strong>Prototype (Throwaway):</strong> Build a mock to clarify <em>unclear</em> UI/requirements; discard prototype and build real system.</div>
+          <div class="note small"><strong>Evolutionary Prototyping:</strong> Start minimal working system; evolve into final product as needs change (great for new/growing orgs).</div>
+          <div class="note small"><strong>Incremental:</strong> Deliver in modules/increments (e.g., Profiles → Payroll → Leave). Requirements mostly known per module.</div>
+          <div class="note small"><strong>Iterative:</strong> Rework the same product in cycles adding depth/quality (v1, v2, v3…).</div>
+          <div class="note small"><strong>Spiral:</strong> Iterative + rigorous risk analysis each loop. For high-risk, complex, costly systems.</div>
+          <div class="note small"><strong>Agile (Scrum/Kanban):</strong> Short sprints, frequent change, continuous delivery & customer collaboration.</div>
+          <div class="note small"><strong>RAD (Rapid App Dev):</strong> Fast delivery via prototypes, user workshops, reusable components and tools. Broad reqs known; details evolve.</div>
+          <div class="divider"></div>
+          <div class="small muted">Tip: Fixed req → Waterfall/V-Model • Unclear UI → Prototype • Evolving needs → Evolutionary/Iterative • Risky/complex → Spiral • Deliver in parts → Incremental • Fast with user buy-in → Agile/RAD</div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<script>
+const THEORY = 'Theory';
+const SCENARIO = 'Scenario';
+
+/**
+ * 60 Questions — 35 Theory + 25 Scenario
+ * Each item: {id, type, q, options:[{t,correct}], explain}
+ */
+const qs = [
+  // ---------------- THEORY (1–35) ----------------
+  {id:1,type:THEORY,q:'In the Waterfall model, requirements are typically…',options:[
+    {t:'Fixed and well-defined',correct:true},{t:'Unclear and evolving',correct:false},{t:'Discovered during sprints',correct:false},{t:'Primarily driven by risk loops',correct:false}
+  ],explain:'Waterfall assumes stable, upfront requirements with minimal changes later.'},
+  {id:2,type:THEORY,q:'Which model maps each development phase to a corresponding test phase?',options:[
+    {t:'V-Model',correct:true},{t:'Iterative',correct:false},{t:'RAD',correct:false},{t:'Spiral',correct:false}
+  ],explain:'V-Model (Verification & Validation) pairs dev phases with testing activities.'},
+  {id:3,type:THEORY,q:'Prototyping (throwaway) is BEST when…',options:[
+    {t:'UI/requirements are unclear and need quick visual feedback',correct:true},{t:'Requirements are fixed and stable',correct:false},{t:'Risk analysis is the main driver',correct:false},{t:'The project is safety critical',correct:false}
+  ],explain:'Throwaway prototypes help elicit unclear requirements, then are discarded.'},
+  {id:4,type:THEORY,q:'Evolutionary Prototyping means…',options:[
+    {t:'Prototype evolves into the final system through iterations',correct:true},{t:'Prototype is thrown away',correct:false},{t:'Only documentation evolves',correct:false},{t:'It is identical to Incremental',correct:false}
+  ],explain:'In evolutionary prototyping, the working model is continuously refined into the final product.'},
+  {id:5,type:THEORY,q:'Which model emphasizes delivering functionality in modules over time?',options:[
+    {t:'Incremental',correct:true},{t:'Waterfall',correct:false},{t:'Prototype',correct:false},{t:'V-Model',correct:false}
+  ],explain:'Incremental delivers the product in functional slices (increments).'},
+  {id:6,type:THEORY,q:'Iterative development primarily focuses on…',options:[
+    {t:'Building then refining the same product through cycles',correct:true},{t:'Risk analysis per loop',correct:false},{t:'Discarding prototypes',correct:false},{t:'Big-bang release at the end',correct:false}
+  ],explain:'Iterative = repeated cycles that improve the same product.'},
+  {id:7,type:THEORY,q:'Which model is most associated with explicit risk analysis every iteration?',options:[
+    {t:'Spiral',correct:true},{t:'Agile',correct:false},{t:'Waterfall',correct:false},{t:'RAD',correct:false}
+  ],explain:'Spiral combines iteration with risk-driven planning and prototyping.'},
+  {id:8,type:THEORY,q:'Agile (Scrum) sprints typically deliver…',options:[
+    {t:'Working increments every 1–4 weeks',correct:true},{t:'Only documentation updates',correct:false},{t:'A full finished system',correct:false},{t:'No customer involvement',correct:false}
+  ],explain:'Agile prioritizes frequent, working software and collaboration.'},
+  {id:9,type:THEORY,q:'RAD prioritizes…',options:[
+    {t:'Rapid construction using reusable components and user workshops',correct:true},{t:'Long up-front design',correct:false},{t:'Zero customer interaction',correct:false},{t:'Formal verification only',correct:false}
+  ],explain:'RAD favors speed via component reuse, prototyping, and close user input.'},
+  {id:10,type:THEORY,q:'V-Model is most suitable for…',options:[
+    {t:'Safety or quality-critical systems needing rigorous testing',correct:true},{t:'Highly unclear UI needs',correct:false},{t:'Fast MVP with minimal test planning',correct:false},{t:'Pure research prototypes',correct:false}
+  ],explain:'V-Model ensures early test planning and traceability for critical systems.'},
+  {id:11,type:THEORY,q:'In Agile, the product backlog is owned by the…',options:[
+    {t:'Product Owner',correct:true},{t:'Scrum Master',correct:false},{t:'Developers exclusively',correct:false},{t:'Stakeholders only',correct:false}
+  ],explain:'The Product Owner prioritizes the backlog based on value.'},
+  {id:12,type:THEORY,q:'A key drawback of Waterfall is…',options:[
+    {t:'Late discovery of issues due to minimal early feedback',correct:true},{t:'Too much customer collaboration',correct:false},{t:'Overly rapid delivery',correct:false},{t:'Excessive iteration',correct:false}
+  ],explain:'Waterfall feedback often arrives after coding/testing, making changes costly.'},
+  {id:13,type:THEORY,q:'Incremental vs Iterative: which is TRUE?',options:[
+    {t:'Incremental adds new modules; Iterative deepens/improves the same product',correct:true},{t:'They are identical',correct:false},{t:'Both discard prototypes',correct:false},{t:'Neither can be combined',correct:false}
+  ],explain:'Incremental = breadth by modules; Iterative = depth over cycles.'},
+  {id:14,type:THEORY,q:'Which model is LEAST flexible to change?',options:[
+    {t:'Waterfall',correct:true},{t:'Agile',correct:false},{t:'Evolutionary Prototyping',correct:false},{t:'RAD',correct:false}
+  ],explain:'Waterfall resists change because phases are linear and locked.'},
+  {id:15,type:THEORY,q:'Spiral is best matched with which keyword?',options:[
+    {t:'Risk',correct:true},{t:'No testing',correct:false},{t:'No prototypes',correct:false},{t:'One-time delivery',correct:false}
+  ],explain:'Spiral is explicitly risk-driven.'},
+  {id:16,type:THEORY,q:'Agile accepts changing requirements…',options:[
+    {t:'Even late in development',correct:true},{t:'Only before coding starts',correct:false},{t:'Never',correct:false},{t:'Only after release',correct:false}
+  ],explain:'Agile principle: welcome change for the customer’s competitive advantage.'},
+  {id:17,type:THEORY,q:'RAD typically targets a delivery window of…',options:[
+    {t:'~60–90 days for a usable release',correct:true},{t:'5–7 years',correct:false},{t:'Same as Waterfall',correct:false},{t:'Single-day delivery always',correct:false}
+  ],explain:'RAD emphasizes quick turnarounds with time-boxed construction.'},
+  {id:18,type:THEORY,q:'Throwaway prototyping’s prototype is…',options:[
+    {t:'Discarded after requirement clarification',correct:true},{t:'Released as final product',correct:false},{t:'Converted to test cases only',correct:false},{t:'Always used in production',correct:false}
+  ],explain:'It is a learning tool, not the basis of the final codebase.'},
+  {id:19,type:THEORY,q:'A hallmark of Scrum is…',options:[
+    {t:'Time-boxed sprints and daily stand-ups',correct:true},{t:'Big design up front and no meetings',correct:false},{t:'No roles defined',correct:false},{t:'Code before planning',correct:false}
+  ],explain:'Scrum uses ceremonies and cadences for predictable delivery.'},
+  {id:20,type:THEORY,q:'Which model best ensures traceability from requirements to tests?',options:[
+    {t:'V-Model',correct:true},{t:'RAD',correct:false},{t:'Prototype',correct:false},{t:'Incremental',correct:false}
+  ],explain:'V-Model’s verification & validation mapping enforces traceability.'},
+  {id:21,type:THEORY,q:'When primary risk is misunderstood requirements, prefer…',options:[
+    {t:'Prototype (throwaway) or Evolutionary',correct:true},{t:'Waterfall',correct:false},{t:'V-Model',correct:false},{t:'None',correct:false}
+  ],explain:'Prototyping reduces misunderstanding through concrete visuals.'},
+  {id:22,type:THEORY,q:'Incremental delivery provides value because…',options:[
+    {t:'Users can start using parts of the system earlier',correct:true},{t:'It removes need for testing',correct:false},{t:'It eliminates integration',correct:false},{t:'It fixes scope forever',correct:false}
+  ],explain:'Early increments provide immediate utility and feedback.'},
+  {id:23,type:THEORY,q:'Spiral model phases typically include…',options:[
+    {t:'Objectives, risk analysis, development, evaluation',correct:true},{t:'Only coding',correct:false},{t:'Testing only',correct:false},{t:'Deployment only',correct:false}
+  ],explain:'Each loop includes planning, risk analysis, engineering, and evaluation.'},
+  {id:24,type:THEORY,q:'Kanban emphasizes…',options:[
+    {t:'Visualizing work and limiting WIP',correct:true},{t:'Fixed sprints',correct:false},{t:'Throwaway prototypes',correct:false},{t:'Formal proofs',correct:false}
+  ],explain:'Kanban improves flow by WIP limits and visual boards.'},
+  {id:25,type:THEORY,q:'In Agile, who shields the team from impediments?',options:[
+    {t:'Scrum Master',correct:true},{t:'Product Owner',correct:false},{t:'Architect',correct:false},{t:'Sponsor',correct:false}
+  ],explain:'Scrum Master facilitates and removes impediments.'},
+  {id:26,type:THEORY,q:'A weakness of RAD is…',options:[
+    {t:'Requires strong customer availability and quick decisions',correct:true},{t:'Too slow',correct:false},{t:'No prototypes',correct:false},{t:'Zero tooling',correct:false}
+  ],explain:'RAD depends on intensive user involvement; without it, quality suffers.'},
+  {id:27,type:THEORY,q:'Which is MOST documentation-heavy?',options:[
+    {t:'Waterfall/V-Model',correct:true},{t:'Agile',correct:false},{t:'RAD',correct:false},{t:'Prototype',correct:false}
+  ],explain:'Traditional models emphasize documents and stage gates.'},
+  {id:28,type:THEORY,q:'Which combo is valid?',options:[
+    {t:'Incremental + Iterative together',correct:true},{t:'Agile without iteration',correct:false},{t:'Spiral without risk',correct:false},{t:'Waterfall with sprints',correct:false}
+  ],explain:'Many teams deliver new modules (incremental) while refining existing ones (iterative).'},
+  {id:29,type:THEORY,q:'When frequent regulatory audits are expected, which model helps?',options:[
+    {t:'V-Model or Waterfall',correct:true},{t:'Ad-hoc coding',correct:false},{t:'Prototype only',correct:false},{t:'No-process',correct:false}
+  ],explain:'Strict documentation and traceability aid audits.'},
+  {id:30,type:THEORY,q:'A key Agile artifact used during Sprint Planning is…',options:[
+    {t:'Product Backlog & Sprint Backlog',correct:true},{t:'Risk Register only',correct:false},{t:'Final SRS only',correct:false},{t:'Code of Conduct',correct:false}
+  ],explain:'Sprint Planning selects items from the Product Backlog to form the Sprint Backlog.'},
+  {id:31,type:THEORY,q:'RAD differs from Spiral mainly because RAD…',options:[
+    {t:'Optimizes speed via components and workshops, not heavy risk analysis',correct:true},{t:'Eliminates users',correct:false},{t:'Bans prototypes',correct:false},{t:'Requires 5-year plans',correct:false}
+  ],explain:'Spiral is risk-centric; RAD is speed and user-collab centric.'},
+  {id:32,type:THEORY,q:'In Scrum, increment must be…',options:[
+    {t:'Potentially shippable/usable at sprint end',correct:true},{t:'Only a document',correct:false},{t:'A mock-up only',correct:false},{t:'Untested code',correct:false}
+  ],explain:'Definition of Done ensures quality and usability.'},
+  {id:33,type:THEORY,q:'Which model best fits “measure–learn–build” loops?',options:[
+    {t:'Agile/Iterative (Lean)',correct:true},{t:'Waterfall only',correct:false},{t:'V-Model only',correct:false},{t:'None',correct:false}
+  ],explain:'Lean Startup thinking aligns with iterative/agile loops.'},
+  {id:34,type:THEORY,q:'The main risk Spiral addresses early is…',options:[
+    {t:'Project-specific major risks (tech, cost, schedule)',correct:true},{t:'Grammar errors in docs',correct:false},{t:'Color palette selection',correct:false},{t:'Keyboard layout',correct:false}
+  ],explain:'Risk identification/mitigation governs each spiral.'},
+  {id:35,type:THEORY,q:'Which statement about Evolutionary Prototyping is TRUE?',options:[
+    {t:'The codebase of the prototype is extended and hardened for production',correct:true},{t:'It is always discarded',correct:false},{t:'It forbids user feedback',correct:false},{t:'It has no iterations',correct:false}
+  ],explain:'Evolutionary prototypes are the seed of the final product.'},
+
+  // ---------------- SCENARIO (36–60) ----------------
+  {id:36,type:SCENARIO,q:'A new fintech startup will expand to multiple countries; requirements will evolve rapidly. Which model?',options:[
+    {t:'Evolutionary Prototyping',correct:true},{t:'Waterfall',correct:false},{t:'V-Model',correct:false},{t:'None',correct:false}
+  ],explain:'Start minimal and evolve with changing regulations/needs.'},
+  {id:37,type:SCENARIO,q:'Client demands a quick MVP in 2 months with heavy user workshops. Pick:',options:[
+    {t:'RAD',correct:true},{t:'Spiral',correct:false},{t:'Waterfall',correct:false},{t:'V-Model',correct:false}
+  ],explain:'RAD suits fast builds using reusable components and active users.'},
+  {id:38,type:SCENARIO,q:'HR system to be delivered module-by-module: Profiles → Payroll → Leave. Choose:',options:[
+    {t:'Incremental',correct:true},{t:'Iterative',correct:false},{t:'Waterfall',correct:false},{t:'Spiral',correct:false}
+  ],explain:'Each increment adds a distinct functional slice.'},
+  {id:39,type:SCENARIO,q:'Medical device software with strict verification & traceability:',options:[
+    {t:'V-Model',correct:true},{t:'Prototype',correct:false},{t:'RAD',correct:false},{t:'Kanban only',correct:false}
+  ],explain:'V-Model maps verification/validation rigorously.'},
+  {id:40,type:SCENARIO,q:'E-commerce UI unclear; stakeholders need to “see it” first. Best approach:',options:[
+    {t:'Throwaway Prototyping',correct:true},{t:'Waterfall',correct:false},{t:'No prototype',correct:false},{t:'Big-bang',correct:false}
+  ],explain:'Use disposable UI prototypes to clarify flows.'},
+  {id:41,type:SCENARIO,q:'Defense project: high technical risks; must mitigate early. Choose:',options:[
+    {t:'Spiral',correct:true},{t:'RAD',correct:false},{t:'Prototype only',correct:false},{t:'None',correct:false}
+  ],explain:'Spiral’s risk loops de-risk early.'},
+  {id:42,type:SCENARIO,q:'Start-up wants frequent releases and can adapt scope every 2 weeks. Choose:',options:[
+    {t:'Agile/Scrum',correct:true},{t:'Waterfall',correct:false},{t:'V-Model',correct:false},{t:'Spiral',correct:false}
+  ],explain:'Sprints allow frequent reprioritization.'},
+  {id:43,type:SCENARIO,q:'Legacy rewrite with clear, frozen requirements signed by regulators. Choose:',options:[
+    {t:'Waterfall',correct:true},{t:'RAD',correct:false},{t:'Prototype',correct:false},{t:'Spiral',correct:false}
+  ],explain:'Stable scope fits Waterfall.'},
+  {id:44,type:SCENARIO,q:'Search engine product: release v1 simple, v2 add filters, v3 add ML ranking. Choose:',options:[
+    {t:'Iterative',correct:true},{t:'Incremental only',correct:false},{t:'Waterfall',correct:false},{t:'V-Model',correct:false}
+  ],explain:'Same product improved each cycle → Iterative.'},
+  {id:45,type:SCENARIO,q:'Banking back-end core with extreme reliability + audits. Choose:',options:[
+    {t:'V-Model or Spiral (risk-heavy)',correct:true},{t:'Prototype only',correct:false},{t:'Ad-hoc',correct:false},{t:'RAD only',correct:false}
+  ],explain:'Regulated, risk-prone systems fit V-Model/Spiral.'},
+  {id:46,type:SCENARIO,q:'Client needs a wizard-like UI clarified before build, backend is standard. Choose:',options:[
+    {t:'Throwaway Prototype for UI, then Incremental build',correct:true},{t:'Only Waterfall',correct:false},{t:'Only Spiral',correct:false},{t:'Only Kanban',correct:false}
+  ],explain:'Prototype clarifies UI; then deliver modules.'},
+  {id:47,type:SCENARIO,q:'Global payroll system delivered by country packs, one-by-one. Choose:',options:[
+    {t:'Incremental',correct:true},{t:'Iterative only',correct:false},{t:'Waterfall',correct:false},{t:'Prototype',correct:false}
+  ],explain:'Each country is an increment.'},
+  {id:48,type:SCENARIO,q:'Gaming app MVP in 8 weeks with user playtests every weekend. Choose:',options:[
+    {t:'RAD or Agile',correct:true},{t:'Waterfall',correct:false},{t:'V-Model',correct:false},{t:'None',correct:false}
+  ],explain:'Fast cycles + user feedback fit RAD/Agile.'},
+  {id:49,type:SCENARIO,q:'Highly experimental R&D UI concept needs validation, not production code. Choose:',options:[
+    {t:'Throwaway Prototype',correct:true},{t:'Evolutionary',correct:false},{t:'V-Model',correct:false},{t:'Waterfall',correct:false}
+  ],explain:'Discardable prototypes validate ideas cheaply.'},
+  {id:50,type:SCENARIO,q:'A product will start small and grow with market learning; same codebase matures.',options:[
+    {t:'Evolutionary Prototyping + Iterative',correct:true},{t:'Waterfall',correct:false},{t:'Prototype throwaway',correct:false},{t:'None',correct:false}
+  ],explain:'Start small; evolve continuously.'},
+  {id:51,type:SCENARIO,q:'Airport ATC training portal with strict test evidence + mapping to requirements.',options:[
+    {t:'V-Model',correct:true},{t:'Agile only',correct:false},{t:'RAD',correct:false},{t:'Prototype only',correct:false}
+  ],explain:'Traceability and planned validation are key.'},
+  {id:52,type:SCENARIO,q:'Customer support tool where each month a new module (chat, KB, analytics) is added.',options:[
+    {t:'Incremental',correct:true},{t:'Iterative only',correct:false},{t:'Waterfall',correct:false},{t:'Spiral',correct:false}
+  ],explain:'Module-wise staged delivery.'},
+  {id:53,type:SCENARIO,q:'Critical avionics system with many unknown technical risks.',options:[
+    {t:'Spiral',correct:true},{t:'RAD',correct:false},{t:'Prototype throwaway only',correct:false},{t:'Waterfall',correct:false}
+  ],explain:'Risk-centric loops suit avionics.'},
+  {id:54,type:SCENARIO,q:'Regulated insurance portal; UI unclear now but must pass audits later.',options:[
+    {t:'Prototype first → V-Model',correct:true},{t:'Only Agile',correct:false},{t:'Only Waterfall',correct:false},{t:'Only RAD',correct:false}
+  ],explain:'Prototype clarifies UI; V-Model ensures audit-ready traceability.'},
+  {id:55,type:SCENARIO,q:'Startup insists on weekly demos and can reprioritize constantly.',options:[
+    {t:'Agile/Scrum or Kanban',correct:true},{t:'Waterfall',correct:false},{t:'V-Model',correct:false},{t:'None',correct:false}
+  ],explain:'Frequent change demands Agile cadence.'},
+  {id:56,type:SCENARIO,q:'Campus ERP with clear, frozen SRS and fixed budget/time.',options:[
+    {t:'Waterfall',correct:true},{t:'Spiral',correct:false},{t:'RAD',correct:false},{t:'Agile only',correct:false}
+  ],explain:'Stable scope favors Waterfall predictability.'},
+  {id:57,type:SCENARIO,q:'Social app: same app gets richer each release (recs, stories, live).',options:[
+    {t:'Iterative + Incremental',correct:true},{t:'Waterfall only',correct:false},{t:'V-Model only',correct:false},{t:'None',correct:false}
+  ],explain:'Add new features (increments) and improve existing ones (iterations).'},
+  {id:58,type:SCENARIO,q:'Back-office tool needed super-fast using ready-made components and forms builder.',options:[
+    {t:'RAD',correct:true},{t:'Spiral',correct:false},{t:'Prototype only',correct:false},{t:'V-Model',correct:false}
+  ],explain:'RAD thrives on component reuse and speed.'},
+  {id:59,type:SCENARIO,q:'Client wants to see a working UI every 2 weeks and decides scope on the go.',options:[
+    {t:'Agile/Scrum',correct:true},{t:'Waterfall',correct:false},{t:'V-Model',correct:false},{t:'Prototype only',correct:false}
+  ],explain:'Time-boxed sprints with reviews fit best.'},
+  {id:60,type:SCENARIO,q:'Safety-critical railway signaling with exhaustive validation mapping.',options:[
+    {t:'V-Model',correct:true},{t:'RAD',correct:false},{t:'Prototype only',correct:false},{t:'Kanban only',correct:false}
+  ],explain:'V-Model provides the required verification/validation rigor.'},
+];
+
+// --- Render ---
+const state = {
+  answered:new Set(),
+  correct:new Set(),
+  order:[...qs.keys()].map(i=>i),
+  filter:'All',
+  search:'',
+};
+
+const elQ = document.getElementById('questions');
+const elStats = document.getElementById('stats');
+const elProg = document.getElementById('progress');
+
+function updateStats(){
+  const total = qs.length;
+  const ans = state.answered.size;
+  const ok = state.correct.size;
+  elStats.textContent = `${ans} / ${total} answered • ${ok} correct`;
+  const pct = total? Math.round((ans/total)*100):0;
+  elProg.style.width = pct+"%";
+}
+
+function matchesFilters(q){
+  if(state.filter!== 'All' && q.type!==state.filter) return false;
+  if(state.search){
+    const s = state.search.toLowerCase();
+    if(!(q.q.toLowerCase().includes(s) || q.options.some(o=>o.t.toLowerCase().includes(s)))) return false;
+  }
+  return true;
+}
+
+function render(){
+  elQ.innerHTML = '';
+  const indices = state.order.map(i=>i+1); // 1..n ids
+  const items = indices.map(id=>qs.find(x=>x.id===id)).filter(matchesFilters);
+  for(const q of items){
+    const card = document.createElement('div');
+    card.className='card';
+
+    const header = document.createElement('div');
+    header.style.display='flex';
+    header.style.justifyContent='space-between';
+    header.style.alignItems='center';
+
+    const left = document.createElement('div');
+    left.innerHTML = `<div class="qid">Q${q.id} • <span class="badge">${q.type}</span></div>
+                      <div class="qtext">${q.q}</div>`;
+
+    const right = document.createElement('div');
+    right.innerHTML = '';
+
+    header.appendChild(left);header.appendChild(right);
+
+    const opts = document.createElement('div');
+    opts.className='opts';
+
+    q.options.forEach((opt,idx)=>{
+      const b = document.createElement('button');
+      b.className='opt';
+      b.textContent = opt.t;
+      if(state.answered.has(q.id)){
+        // show previous state
+        const wasCorrect = state.correct.has(q.id);
+        if(wasCorrect && opt.correct) b.classList.add('correct');
+      }
+      b.addEventListener('click',()=>{
+        if(state.answered.has(q.id)) return; // lock after first click
+        state.answered.add(q.id);
+        if(opt.correct){
+          state.correct.add(q.id);
+          b.classList.add('correct');
+        }else{
+          b.classList.add('wrong');
+        }
+        // disable all
+        opts.querySelectorAll('button').forEach(x=>x.disabled=true);
+        // show explanation
+        exp.style.display='block';
+        updateStats();
+      });
+      opts.appendChild(b);
+    });
+
+    const exp = document.createElement('div');
+    exp.className='explain small';
+    exp.style.display = state.answered.has(q.id)?'block':'none';
+    exp.innerHTML = `<strong>Explanation:</strong> ${q.explain}`;
+
+    card.appendChild(header);
+    card.appendChild(opts);
+    card.appendChild(exp);
+    elQ.appendChild(card);
+  }
+  updateStats();
+}
+
+// Controls
+const sel = document.getElementById('filter');
+sel.addEventListener('change',()=>{state.filter=sel.value; render();});
+const sch = document.getElementById('search');
+sch.addEventListener('input',()=>{state.search=sch.value.trim(); render();});
+
+document.getElementById('shuffle').addEventListener('click',()=>{
+  state.order = state.order
+    .map(v=>[Math.random(),v])
+    .sort((a,b)=>a[0]-b[0])
+    .map(p=>p[1]);
+  render();
+});
+
+document.getElementById('reset').addEventListener('click',()=>{
+  state.answered.clear();
+  state.correct.clear();
+  state.order=[...qs.keys()].map(i=>i);
+  state.filter='All';
+  sel.value='All';
+  sch.value='';
+  state.search='';
+  window.scrollTo({top:0,behavior:'smooth'});
+  render();
+});
+
+// boot
+render();
+</script>
+</body>
+</html>

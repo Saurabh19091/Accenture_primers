@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agile Methodology – 60 Question Quiz</title>
+  <style>
+    :root{
+      --bg:#0f172a; /* slate-900 */
+      --panel:#111827; /* gray-900 */
+      --muted:#374151; /* gray-700 */
+      --text:#e5e7eb; /* gray-200 */
+      --accent:#22d3ee; /* cyan-400 */
+      --green:#16a34a; /* green-600 */
+      --red:#dc2626; /* red-600 */
+      --yellow:#f59e0b; /* amber-500 */
+      --border:#1f2937; /* gray-800 */
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,var(--bg),#0b1026);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+    header{position:sticky;top:0;z-index:5;background:rgba(17,24,39,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+    .wrap{max-width:1100px;margin:0 auto;padding:16px}
+    h1{font-size:28px;margin:8px 0}
+    .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .badge{border:1px solid var(--border);padding:6px 10px;border-radius:999px;font-size:13px}
+    button{background:var(--muted);color:var(--text);border:1px solid var(--border);padding:10px 14px;border-radius:12px;cursor:pointer;transition:transform .06s ease,background .2s ease}
+    button:hover{transform:translateY(-1px)}
+    button.primary{background:var(--accent);color:#07242a;font-weight:700}
+    button.ghost{background:transparent}
+    .grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:16px}
+    @media(min-width:900px){.grid{grid-template-columns:1fr 1fr}}
+    .card{background:linear-gradient(180deg,#0d1328,#0a1226);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    .qhead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+    .qnum{font-size:13px;color:#9ca3af}
+    .qtext{margin:8px 0 12px;font-size:16px;line-height:1.4}
+    .options{display:flex;flex-direction:column;gap:8px}
+    .opt{display:flex;gap:10px;align-items:center;border:1px solid var(--border);background:#0b1224;padding:10px;border-radius:12px;cursor:pointer}
+    .opt input{pointer-events:none}
+    .opt.correct{border-color:var(--green);background:rgba(22,163,74,.12)}
+    .opt.wrong{border-color:var(--red);background:rgba(220,38,38,.12)}
+    .explain{margin-top:10px;border-left:3px solid var(--accent);padding:10px 12px;background:#0a1a24;border-radius:8px}
+    .pill{font-size:12px;border:1px dashed var(--border);padding:2px 8px;border-radius:999px;color:#cbd5e1}
+    .footer{margin-top:30px;display:flex;gap:12px;flex-wrap:wrap}
+    .hidden{display:none}
+    .tag{font-size:11px;color:#9ca3af}
+    .correct-text{color:var(--green);font-weight:700}
+    .wrong-text{color:var(--red);font-weight:700}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Agile Methodology – Interactive Quiz (60 Qs)</h1>
+      <div class="controls">
+        <span class="badge" id="progress">0 / 60 answered</span>
+        <span class="badge" id="score">Score: 0</span>
+        <button class="ghost" id="showAll">Expand/Collapse Explanations</button>
+        <button class="primary" id="resetBtn">Reset Quiz</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="grid" id="quiz"></div>
+    <div class="footer">
+      <button id="showUnanswered">Jump to First Unanswered</button>
+      <button id="showWrong">Highlight Wrong Answers</button>
+    </div>
+  </main>
+
+  <script>
+    // Question bank: 60 questions covering Agile topics + items user asked before
+    const questions = [
+      // 1–10 Basics & Manifesto
+      {type:'single', q:'State true or false. During agile development more emphasis is given for documentation.',
+        options:['TRUE','FALSE'], answer:1,
+        exp:'Agile values working software over comprehensive documentation; documentation is lightweight and just-enough.'},
+      {type:'single', q:'Which agile methodology divides the development into sprint cycles, in which a specified set of features are delivered?',
+        options:['Extreme Programming','SCRUM','Lean Software Development'], answer:1,
+        exp:'Scrum uses time-boxed sprints (usually 2–4 weeks) delivering a potentially shippable increment.'},
+      {type:'single', q:'Which of these is NOT an Agile methodology?',
+        options:['DSDM','CRYSTAL','SCRUM','SPIRAL'], answer:3,
+        exp:'The Spiral model is an SDLC model focusing on risk management, not an Agile methodology.'},
+      {type:'single', q:'Scrum divides the development into short cycles called as ______.',
+        options:['Sprint Cycles','Stable Cycles','Spiral Cycles','Risk Cycles'], answer:0,
+        exp:'Scrum sprints are short, time-boxed iterations.'},
+      {type:'single', q:'Which methodology focuses on visualizing flow?',
+        options:['Scrum','DSDM','Prototype','Kanban'], answer:3,
+        exp:'Kanban visualizes workflow on boards and limits WIP to improve flow.'},
+      {type:'single', q:'DSDM is iterative and incremental.', options:['True','False'], answer:0,
+        exp:'DSDM delivers in increments and iterates for refinement.'},
+      {type:'single', q:'Collaborative and co-operative approach among all stakeholders is a feature of which Agile methodology?',
+        options:['Scrum','Dynamic System Development Method','Lean Software Development'], answer:1,
+        exp:'DSDM emphasises active user involvement and stakeholder collaboration.'},
+      {type:'single', q:'Which agile methodology depends most on team cohesiveness and individual commitment?',
+        options:['Lean Software Development','Feature Driven Development','Extreme Programming','SCRUM'], answer:2,
+        exp:'XP relies on practices like pair programming and collective ownership that need strong team commitment.'},
+      {type:'single', q:'_____ methodology is useful when the client requirements are not clear and stable.',
+        options:['Agile Methodology','Spiral Methodology','Waterfall Methodology','Prototype Methodology'], answer:0,
+        exp:'Agile supports evolving requirements through iterative delivery and feedback.'},
+      {type:'single', q:'Which statement best reflects the Agile Manifesto?',
+        options:['Processes and tools over individuals and interactions','Comprehensive documentation over working software','Contract negotiation over customer collaboration','Responding to change over following a plan'], answer:3,
+        exp:'Agile values responding to change over following a plan.'},
+
+      // 11–20 Scrum Framework
+      {type:'single', q:'Who is responsible for maximizing product value in Scrum?', options:['Scrum Master','Product Owner','Development Team'], answer:1,
+        exp:'The Product Owner owns the Product Backlog and maximizes value.'},
+      {type:'single', q:'Which event inspects the Increment and adapts the Product Backlog?', options:['Sprint Planning','Daily Scrum','Sprint Review','Sprint Retrospective'], answer:2,
+        exp:'Sprint Review is for inspecting the increment and adapting the backlog with stakeholders.'},
+      {type:'single', q:'Time-box of the Daily Scrum is:', options:['15 minutes','30 minutes','1 hour','As long as needed'], answer:0,
+        exp:'Daily Scrum is a focused 15-minute event.'},
+      {type:'single', q:'Definition of Done (DoD) ensures:', options:['Work meets agreed quality and is releasable','Team velocity increases','Scope never changes','Stakeholders attend daily'], answer:0,
+        exp:'DoD is a shared understanding of completion and quality.'},
+      {type:'single', q:'A Product Backlog item should follow INVEST. What does I stand for?', options:['Independent','Iterative','Integrated','Immediate'], answer:0,
+        exp:'INVEST: Independent, Negotiable, Valuable, Estimable, Small, Testable.'},
+      {type:'single', q:'Velocity in Scrum is:', options:['Story points completed per sprint','Lines of code per day','Bugs fixed per release','Team size'], answer:0,
+        exp:'Velocity tracks completed story points to aid forecasting.'},
+      {type:'single', q:'Which chart shows remaining work against time in a sprint?', options:['Burnup chart','Burndown chart','Gantt chart','Control chart'], answer:1,
+        exp:'Burndown shows remaining work; burnup shows scope done vs total.'},
+      {type:'single', q:'During Sprint Planning, the team commits to:', options:['Scope that never changes','A Sprint Goal and selected items','Fixed dates for release','All items requested by stakeholders'], answer:1,
+        exp:'Sprint Planning creates a Sprint Goal and selects PBI to meet it.'},
+      {type:'single', q:'Who removes impediments in Scrum?', options:['Product Owner','Scrum Master','Stakeholders','Architect'], answer:1,
+        exp:'Scrum Master serves the team by removing impediments.'},
+      {type:'single', q:'Backlog prioritization technique often used in Agile:', options:['MoSCoW','PERT','CPM','DFMEA'], answer:0,
+        exp:'MoSCoW: Must, Should, Could, Won’t.'},
+
+      // 21–30 XP, Lean, Kanban, DSDM
+      {type:'single', q:'Which practice is core to Extreme Programming?', options:['Pair programming','Stage-gate reviews','Critical path planning','Earned value'], answer:0,
+        exp:'XP emphasizes pair programming, TDD, CI, simple design.'},
+      {type:'single', q:'Lean Software Development focuses primarily on:', options:['Maximizing utilization','Eliminating waste and delivering value','Freezing requirements','Sequential phases'], answer:1,
+        exp:'Lean aims to remove waste and amplify learning to deliver value faster.'},
+      {type:'single', q:'Kanban limits WIP to:', options:['Increase multitasking','Improve flow and reduce cycle time','Force overtime','Match story points'], answer:1,
+        exp:'WIP limits reduce context switching and reveal bottlenecks.'},
+      {type:'single', q:'DSDM prioritization uses:', options:['Kano model','MoSCoW','WSJF','RICE'], answer:1,
+        exp:'DSDM popularized MoSCoW prioritization.'},
+      {type:'single', q:'Crystal methodology adapts based on:', options:['Team color preference','Project size and criticality','Programming language','Office layout'], answer:1,
+        exp:'Crystal variants (Clear, Orange, etc.) depend on team size & criticality.'},
+      {type:'single', q:'Feature-Driven Development (FDD) emphasizes:', options:['Feature lists and model-driven design','Heavy upfront docs','No iterations','Pair programming only'], answer:0,
+        exp:'FDD builds by feature with strong modeling upfront.'},
+      {type:'single', q:'In XP, TDD stands for:', options:['Team-Driven Design','Test-Driven Development','Technical Design Document','Time-Boxed Development'], answer:1,
+        exp:'Write tests first, then code to make them pass.'},
+      {type:'single', q:'Continuous Integration helps to:', options:['Make large batch merges','Detect integration problems early','Eliminate testing','Replace code reviews'], answer:1,
+        exp:'CI integrates changes frequently, catching issues sooner.'},
+      {type:'single', q:'Kanban board typical columns are:', options:['Not Started – Doing – Done','Design – Build – Test – Release only','Open – Closed only','Backlog – Backlog – Backlog'], answer:0,
+        exp:'Boards visualize workflow; exact columns can vary.'},
+      {type:'single', q:'Lean concept “Build quality in” means:', options:['Rely on end-stage testing','Prevent defects early via practices','Skip code reviews','Add more documentation'], answer:1,
+        exp:'Quality is built into the process via automation, TDD, and standards.'},
+
+      // 31–40 Requirements, stories, estimation, risk
+      {type:'single', q:'A good User Story format is:', options:['As a <role>, I want <goal> so that <benefit>','Given-When-Then','Problem-Solution','If-Else'], answer:0,
+        exp:'That template captures role, goal, and value. Acceptance criteria often use GWT.'},
+      {type:'single', q:'Story points measure:', options:['Hours','Complexity/effort relative size','Team size','LOC'], answer:1,
+        exp:'Points are relative estimates of effort/complexity, not time.'},
+      {type:'single', q:'Planning Poker is used for:', options:['Release planning only','Relative estimation by team','Risk management only','Daily Scrum'], answer:1,
+        exp:'Team members estimate using cards to reach consensus.'},
+      {type:'single', q:'Timeboxing means:', options:['Fixed scope, flexible time','Fixed time, flexible scope','Unlimited scope and time','Only testing time fixed'], answer:1,
+        exp:'Agile fixes time (sprint), adjusts scope to meet goals.'},
+      {type:'single', q:'Spikes are used to:', options:['Deliver UI only','Prototype/research to reduce uncertainty','Replace testing','Handle HR issues'], answer:1,
+        exp:'Spikes explore solutions or risks to inform future work.'},
+      {type:'single', q:'Which is best when requirements are unclear?', options:['Waterfall','Agile','Big Design Up Front only','Code-and-fix'], answer:1,
+        exp:'Agile iterative approach welcomes changing requirements.'},
+      {type:'single', q:'Risk-driven model primarily associated with:', options:['Scrum','Spiral','XP','Kanban'], answer:1,
+        exp:'Spiral iterates through risk identification and mitigation.'},
+      {type:'single', q:'Minimum Viable Product (MVP) focuses on:', options:['All features at once','Minimum set to validate learning','Only backend','Aesthetics only'], answer:1,
+        exp:'MVP tests assumptions with least effort to gather feedback.'},
+      {type:'single', q:'Definition of Ready (DoR) ensures:', options:['Item is clear enough to start','Item is fully tested','Item is released','Item has UI only'], answer:0,
+        exp:'DoR ensures PBIs are actionable (clear, estimated, acceptance criteria).'},
+      {type:'single', q:'Acceptance Criteria are used to:', options:['Track hours','Define conditions for story acceptance','Assign team roles','Replace tests'], answer:1,
+        exp:'AC define when a story is done from a user perspective and guide testing.'},
+
+      // 41–50 Configuration/Change Mgmt (from user examples)
+      {type:'single', q:'Which configuration concept ensures change happens in a controlled and authorized way?', options:['Configuration database','Baseline','Audit','SVN'], answer:1,
+        exp:'A baseline is a formally approved version that changes only via control procedures.'},
+      {type:'single', q:'Tom updates local work back to the configuration server. This process is called:', options:['Management','Check-in','Check-out','Baseline'], answer:1,
+        exp:'Check-in uploads your local changes to the server repository.'},
+      {type:'single', q:'Which ensures parallel updates do not overwrite each other?', options:['Check-out','Baseline','Check-in','Synchronization control'], answer:3,
+        exp:'Synchronization/merge control coordinates concurrent edits and resolves conflicts.'},
+      {type:'single', q:'________ is the process to implement changes in a controllable manner following a predefined model.', options:['Change Management','Modification Management','Update Management'], answer:0,
+        exp:'Change Management governs how changes are proposed, assessed, approved, and implemented.'},
+      {type:'multi', q:'Select the configuration items eligible for configuration management:', options:['Source code document','SRS','Test Report','Design Document'], answers:[0,1,2,3],
+        exp:'All listed artifacts are configuration items and should be version-controlled.'},
+      {type:'single', q:'Which of the following is NOT a characteristic of cloud computing?', options:['On-demand self-service','Limited scalability','Resource pooling','Broad network access'], answer:1,
+        exp:'Cloud provides rapid elasticity, not limited scalability.'},
+      {type:'single', q:'Agile prioritization often values:', options:['Document completeness first','Working software and customer collaboration','Big upfront design','Strict contracts'], answer:1,
+        exp:'Agile values working software and collaboration to deliver value.'},
+      {type:'single', q:'In version control, Check-out means:', options:['Taking latest from server to local','Pushing changes to server','Creating a baseline','Locking forever'], answer:0,
+        exp:'Check-out/clone/pull brings repo content to your machine.'},
+      {type:'single', q:'Configuration Audit verifies:', options:['Only code formatting','Compliance of items to standards/baselines','HR policies','UI colors'], answer:1,
+        exp:'Audits check that configuration items match their baselines and records.'},
+      {type:'single', q:'SVN is a:', options:['Configuration concept','Version control tool','Test tool','Modeling language'], answer:1,
+        exp:'Apache Subversion (SVN) is a centralized VCS.'},
+
+      // 51–60 Advanced practices/mix
+      {type:'single', q:'Scrum Master primarily serves:', options:['Only Product Owner','The Scrum Team and organization','Only developers','Only customers'], answer:1,
+        exp:'Scrum Master is a servant-leader for the team and the organization.'},
+      {type:'single', q:'Sprint Retrospective focuses on:', options:['Product features','Process improvement','Stakeholder demos','Contract review'], answer:1,
+        exp:'Retro inspects how the last sprint went and plans improvements.'},
+      {type:'single', q:'Which is a pull-based system?', options:['Waterfall','Kanban','Stage-Gate','PERT'], answer:1,
+        exp:'Kanban pulls work when capacity is available, respecting WIP limits.'},
+      {type:'single', q:'WSJF (Weighted Shortest Job First) prioritizes by:', options:['Cost only','Value/Cost (cost of delay over job size)','Random order','Age of items'], answer:1,
+        exp:'WSJF orders work by highest cost of delay divided by job size.'},
+      {type:'single', q:'Agile teams should be:', options:['Component-siloed','Cross-functional and self-managing','Manager-directed only','QA-only'], answer:1,
+        exp:'Teams contain all skills to deliver increments and manage their own work.'},
+      {type:'single', q:'Burndown chart trending flat indicates:', options:['Constant progress','No remaining work','Little or no work completed','Scope reduced'], answer:2,
+        exp:'Flat line means the remaining work isn’t decreasing, signaling issues.'},
+      {type:'single', q:'Refactoring aims to:', options:['Add features','Improve design without changing behavior','Increase LOC','Remove tests'], answer:1,
+        exp:'Refactoring cleans internal structure while preserving external behavior.'},
+      {type:'single', q:'Which ceremony is time-boxed and for planning the next iteration?', options:['Sprint Planning','Sprint Review','Backlog Refinement','Daily Scrum'], answer:0,
+        exp:'Sprint Planning creates the Sprint Goal and plan.'},
+      {type:'single', q:'Minimum marketable feature (MMF) is:', options:['Partial backend only','A smallest set that delivers user-perceivable value','A prototype only','Only bug fixes'], answer:1,
+        exp:'MMF is a coherent chunk that can be released for value.'},
+      {type:'single', q:'A good Kanban WIP limit effect is:', options:['More multitasking','Longer cycle times','Increased throughput and focus','More context switching'], answer:2,
+        exp:'Lower WIP reduces wait and increases flow efficiency.'}
+    ];
+
+    // --- Render Quiz ---
+    const quizEl = document.getElementById('quiz');
+    const scoreEl = document.getElementById('score');
+    const progressEl = document.getElementById('progress');
+
+    let answered = new Set();
+    let score = 0; // +1 per correct question
+
+    function render(){
+      quizEl.innerHTML = '';
+      questions.forEach((item, idx) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        // Header
+        const head = document.createElement('div');
+        head.className = 'qhead';
+        head.innerHTML = `<div class="qnum">Q${idx+1} • <span class="tag">${item.type==='multi'?'Multiple select':'Single select'}</span></div>`;
+        card.appendChild(head);
+
+        // Question text
+        const q = document.createElement('div');
+        q.className = 'qtext';
+        q.textContent = item.q;
+        card.appendChild(q);
+
+        // Options
+        const opts = document.createElement('div');
+        opts.className = 'options';
+
+        if(item.type==='single'){
+          item.options.forEach((opt, i) => {
+            const label = document.createElement('label');
+            label.className = 'opt';
+            label.innerHTML = `<input type="radio" name="q${idx}" /> <span>${String.fromCharCode(97+i)}. ${opt}</span>`;
+            label.addEventListener('click', () => handleSingle(idx, i, label, card));
+            opts.appendChild(label);
+          });
+        } else {
+          item.options.forEach((opt, i) => {
+            const label = document.createElement('label');
+            label.className = 'opt';
+            label.innerHTML = `<input type="checkbox" /> <span>${String.fromCharCode(97+i)}. ${opt}</span>`;
+            opts.appendChild(label);
+          });
+          const chk = document.createElement('button');
+          chk.textContent = 'Check Answer';
+          chk.addEventListener('click', () => handleMulti(idx, card));
+          chk.style.marginTop = '8px';
+          opts.appendChild(chk);
+        }
+
+        card.appendChild(opts);
+
+        // Explanation
+        const exp = document.createElement('div');
+        exp.className = 'explain hidden';
+        exp.id = `exp-${idx}`;
+        exp.textContent = `Explanation: ${item.exp}`;
+        card.appendChild(exp);
+
+        quizEl.appendChild(card);
+      });
+      updateHud();
+    }
+
+    function disableCard(card){
+      card.querySelectorAll('label.opt').forEach(l=> l.style.pointerEvents='none');
+      const btn = card.querySelector('button');
+      if(btn) btn.disabled = true;
+    }
+
+    function handleSingle(qIdx, choiceIdx, label, card){
+      const item = questions[qIdx];
+      if(answered.has(qIdx)) return; // prevent re-answer
+      const correct = item.answer === choiceIdx;
+      if(correct){
+        label.classList.add('correct');
+        score += 1;
+      } else {
+        label.classList.add('wrong');
+        // mark the correct one
+        const labels = card.querySelectorAll('label.opt');
+        labels[item.answer].classList.add('correct');
+      }
+      answered.add(qIdx);
+      showExplanation(qIdx, card, correct);
+      disableCard(card);
+      updateHud();
+    }
+
+    function handleMulti(qIdx, card){
+      const item = questions[qIdx];
+      if(answered.has(qIdx)) return;
+      const labels = Array.from(card.querySelectorAll('label.opt'));
+      const selected = labels.map((l, i) => l.querySelector('input').checked ? i : null).filter(i=>i!==null);
+      const correctSet = new Set(item.answers);
+      const selectedSet = new Set(selected);
+      let isCorrect = (correctSet.size === selectedSet.size) && [...correctSet].every(x=>selectedSet.has(x));
+      // mark selection
+      labels.forEach((l,i)=>{
+        const isInCorrect = correctSet.has(i);
+        if(isInCorrect) l.classList.add('correct');
+        if(selectedSet.has(i) && !isInCorrect) l.classList.add('wrong');
+      });
+      if(isCorrect) score += 1;
+      answered.add(qIdx);
+      showExplanation(qIdx, card, isCorrect);
+      disableCard(card);
+      updateHud();
+    }
+
+    function showExplanation(qIdx, card, correct){
+      const exp = card.querySelector(`#exp-${qIdx}`);
+      exp.classList.remove('hidden');
+      const status = document.createElement('div');
+      status.style.marginBottom = '6px';
+      status.innerHTML = correct ? '<span class="correct-text">Correct ✔</span>' : '<span class="wrong-text">Wrong ✘</span> (Shown below: correct answer and explanation)';
+      exp.prepend(status);
+    }
+
+    function updateHud(){
+      progressEl.textContent = `${answered.size} / ${questions.length} answered`;
+      scoreEl.textContent = `Score: ${score}`;
+    }
+
+    // Controls
+    document.getElementById('resetBtn').addEventListener('click', ()=>{
+      answered = new Set();
+      score = 0;
+      render();
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+
+    document.getElementById('showUnanswered').addEventListener('click', ()=>{
+      for(let i=0;i<questions.length;i++){
+        if(!answered.has(i)){
+          const el = quizEl.children[i];
+          el.scrollIntoView({behavior:'smooth',block:'start'});
+          el.style.outline='2px dashed var(--yellow)';
+          setTimeout(()=>el.style.outline='none', 2000);
+          break;
+        }
+      }
+    });
+
+    document.getElementById('showWrong').addEventListener('click', ()=>{
+      const cards = Array.from(quizEl.children);
+      cards.forEach((card, idx)=>{
+        if(answered.has(idx)){
+          const anyWrong = card.querySelector('.opt.wrong');
+          if(anyWrong){
+            card.scrollIntoView({behavior:'smooth',block:'center'});
+            card.style.outline='2px solid var(--red)';
+            setTimeout(()=>card.style.outline='none', 1800);
+          }
+        }
+      });
+    });
+
+    document.getElementById('showAll').addEventListener('click', ()=>{
+      document.querySelectorAll('.explain').forEach(exp=>{
+        exp.classList.toggle('hidden');
+      });
+    });
+
+    // Kickoff
+    render();
+  </script>
+</body>
+</html>

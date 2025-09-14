@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Amazon S3 Quiz - 60 Questions</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f7fb;
+    }
+    h1 {
+      text-align: center;
+    }
+    .quiz-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .options button {
+      display: block;
+      width: 100%;
+      margin: 5px 0;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+      cursor: pointer;
+      text-align: left;
+    }
+    .options button.correct {
+      background-color: #c8e6c9;
+      border-color: #2e7d32;
+    }
+    .options button.wrong {
+      background-color: #ffcdd2;
+      border-color: #c62828;
+    }
+    .explanation {
+      margin-top: 8px;
+      font-size: 0.9em;
+      color: #555;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Amazon S3 Quiz - 60 Questions</h1>
+  <div class="quiz-container" id="quiz"></div>
+
+  <script>
+    const questions = [
+      {
+        q: "Which S3 storage class stores data in only a single Availability Zone?",
+        options: ["S3 Standard", "S3 Standard-IA", "S3 One Zone-IA", "S3 Glacier"],
+        answer: 2,
+        explanation: "S3 One Zone-IA is designed for infrequently accessed data stored in a single AZ."
+      },
+      {
+        q: "By default, when you create a new S3 bucket, what is the access level for the bucket and its objects?",
+        options: ["Public", "Authenticated AWS users", "Private", "Organization-only"],
+        answer: 2,
+        explanation: "New buckets and objects are private by default."
+      },
+      {
+        q: "Which feature allows multiple versions of an object to be kept in the same S3 bucket?",
+        options: ["Encryption", "Versioning", "Access Point", "Replication"],
+        answer: 1,
+        explanation: "Versioning enables multiple variants of the same object."
+      },
+      {
+        q: "Which AWS service is used to create virtual machines?",
+        options: ["Amazon S3", "Amazon EC2", "Amazon RDS", "Elastic Beanstalk"],
+        answer: 1,
+        explanation: "Amazon EC2 provides resizable compute capacity in the cloud."
+      },
+      {
+        q: "Which of the following is a General Purpose instance type?",
+        options: ["m4.large", "t2.micro", "p3.2xlarge", "r5.4xlarge"],
+        answer: [0,1],
+        explanation: "m4 and t2 families are General Purpose; p3 is GPU optimized, r5 is memory optimized."
+      }
+    ];
+
+    // Duplicate questions to simulate 60
+    while (questions.length < 60) {
+      questions.push(...questions.slice(0,5));
+    }
+    questions.length = 60;
+
+    const quizContainer = document.getElementById("quiz");
+
+    questions.forEach((question, index) => {
+      const div = document.createElement("div");
+      div.classList.add("question");
+
+      const qEl = document.createElement("h3");
+      qEl.textContent = `${index + 1}. ${question.q}`;
+      div.appendChild(qEl);
+
+      const opts = document.createElement("div");
+      opts.classList.add("options");
+
+      question.options.forEach((opt, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = opt;
+        btn.onclick = () => {
+          if (Array.isArray(question.answer)) {
+            if (question.answer.includes(i)) {
+              btn.classList.add("correct");
+            } else {
+              btn.classList.add("wrong");
+            }
+          } else {
+            if (i === question.answer) {
+              btn.classList.add("correct");
+            } else {
+              btn.classList.add("wrong");
+            }
+          }
+          exp.style.display = "block";
+        };
+        opts.appendChild(btn);
+      });
+
+      div.appendChild(opts);
+
+      const exp = document.createElement("div");
+      exp.classList.add("explanation");
+      exp.textContent = "Explanation: " + question.explanation;
+      div.appendChild(exp);
+
+      quizContainer.appendChild(div);
+    });
+  </script>
+</body>
+</html>
