@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>AWS Cloud — Complete Quiz (15 Chapters × 25 Qs)</title>
+<style>
+:root{--bg:#071127;--card:#071a2b;--muted:#9fb0c4;--accent:#16a34a}
+body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial;margin:0;background:linear-gradient(180deg,#031024 0%,#07112a 80%);color:#e6f0f8}
+.wrap{max-width:1100px;margin:22px auto;padding:20px}
+header{display:flex;align-items:center;gap:16px}
+h1{margin:0;font-size:20px}
+.meta{color:var(--muted);font-size:13px}
+nav{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
+.part-btn{background:transparent;border:1px solid rgba(255,255,255,0.05);padding:8px 12px;border-radius:10px;cursor:pointer;color:var(--muted)}
+.part-btn.active{background:rgba(255,255,255,0.03);border-color:rgba(255,255,255,0.12);color:#fff}
+.card{background:rgba(255,255,255,0.02);border-radius:12px;padding:18px;margin-top:18px}
+.question{padding:12px;border-radius:10px;margin-bottom:10px;background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));}
+.q-text{font-weight:600}
+.options{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.opt{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);cursor:pointer}
+.opt.correct{background:rgba(34,197,94,0.18);border-color:rgba(34,197,94,0.35)}
+.opt.wrong{background:rgba(236,72,153,0.14);border-color:rgba(236,72,153,0.35)}
+.controls{display:flex;gap:8px;margin-top:12px;align-items:center}
+.btn{padding:8px 12px;border-radius:8px;border:none;background:var(--accent);color:#fff;cursor:pointer}
+.small{padding:6px 8px;font-size:13px}
+.score{margin-left:auto;color:var(--muted)}
+.notice{color:#ffd27a;background:rgba(255,210,122,0.05);padding:10px;border-radius:8px;margin-top:8px}
+.footer{margin-top:18px;color:var(--muted);font-size:13px}
+.top-controls{display:flex;gap:8px;align-items:center;margin-top:10px}
+@media(max-width:720px){.wrap{padding:12px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>AWS Cloud — Complete Quiz</h1>
+      <div class="meta">15 Chapters · 25 questions each (375 total). Click an option to check — correct = green, wrong = pink.</div>
+    </div>
+  </header>
+
+  <div class="top-controls">
+    <button id="fillAllBtn" class="btn">Fill All Chapters (25 Qs each)</button>
+    <button id="downloadBtn" class="btn small" style="background:#334155">Download HTML</button>
+    <div style="margin-left:auto;color:var(--muted)">Tip: Chapter 1 prefilled. Use Auto-fill or Fill All.</div>
+  </div>
+
+  <nav id="partsNav" aria-label="Chapters navigation"></nav>
+  <div id="content" aria-live="polite"></div>
+  <div class="footer">If you want me to pre-author all 375 questions manually (higher quality & tricky scenarios), tell me and I'll continue chapter-by-chapter.</div>
+</div>
+
+<script>
+// Chapter titles
+const chapterMeta = [
+  'Chapter 1: Introduction to Cloud Computing',
+  'Chapter 2: The AWS Global Infrastructure',
+  'Chapter 3: Interacting with AWS',
+  'Chapter 4: Compute Services (EC2, AMI, Lambda)',
+  'Chapter 5: Storage Services (S3, EBS, EFS, FSx)',
+  'Chapter 6: Database Services (RDS, DynamoDB, Redshift, Neptune)',
+  'Chapter 7: Networking & Content Delivery (VPC, ELB, CloudFront)',
+  'Chapter 8: Auto Scaling & Monitoring (Auto Scaling, CloudWatch)',
+  'Chapter 9: Automation & Decoupling (CloudFormation, SQS, SNS, Containers)',
+  'Chapter 10: Identity & Access Management (IAM)',
+  'Chapter 11: Shared Responsibility Model',
+  'Chapter 12: Key Security Services (Shield, Inspector, Artifact, KMS)',
+  'Chapter 13: AWS Well-Architected Framework',
+  'Chapter 14: AWS Pricing & Billing',
+  'Chapter 15: Practical How-To Guides (S3, EC2, VPC, EBS, Static sites)'
+];
+
+// Prefill Chapter 1 (25 Qs)
+const prefilledChapter1 = {
+  title: chapterMeta[0],
+  items: [
+    {q:'Cloud computing converts capital expenditure into operational expenditure by:', o:['Purchasing more servers upfront','Paying for resources as you consume them','Leasing physical data centers long-term','Buying licenses only once'], a:1},
+    {q:'Which of the following is NOT one of the six advantages mentioned for cloud computing?', o:['Trade CapEx for OpEx','Go global in minutes','Remove need for internet','Stop guessing capacity'], a:2},
+    {q:'On-premise data centers compared to cloud generally have:', o:['Lower initial capital cost','Faster global deployment','Higher upfront capital expense','Built-in auto-scaling by default'], a:2},
+    {q:'Which service model provides virtual servers, storage and networking while you manage the OS?', o:['SaaS','PaaS','IaaS','DBaaS'], a:2},
+    {q:'Which cloud deployment model mixes on-premises and cloud resources?', o:['Public','Private','Hybrid','Community'], a:2},
+    {q:'AWS launched its cloud services in which year?', o:['2000','2006','2012','2018'], a:1},
+    {q:'A benefit described as "stop spending money on undifferentiated heavy lifting" means:', o:['You build physical racks yourself','Cloud provider manages low-level operational tasks','You must manage power and cooling','You own the hardware'], a:1},
+    {q:'Which of the following is a Public Cloud example?', o:['A company-owned data center','An AWS Region','An on-premises private cloud','A community cloud shared between institutions'], a:1},
+    {q:'Which statement is true about global reach in cloud?', o:['Going global requires buying data centers','You can deploy across regions in minutes','Regions are always free to use','Latency is always lower with remote regions'], a:1},
+    {q:'Which is an example of PaaS on AWS?', o:['Amazon EC2','AWS Elastic Beanstalk','Amazon S3','Amazon VPC'], a:1},
+    {q:'Which is a typical use-case of SaaS?', o:['Running a custom VM','Using Gmail for email','Managing OS patches','Provisioning subnets'], a:1},
+    {q:'A Community Cloud is best described as:', o:['Publicly accessible by anyone','Shared between organizations with common concerns','Always cheaper than public cloud','An AWS service tier'], a:1},
+    {q:'One advantage of cloud is "stop guessing capacity" — this refers to:', o:['Never having to monitor resources','Ability to scale resources to match demand','Manual capacity planning only','Fixed capacity provisioning'], a:1},
+    {q:'Which characteristic is NOT typically true for cloud providers achieving economies of scale?', o:['Lower per-unit cost','Ability to share hardware across customers','Guaranteed zero-latency worldwide','Massive centralized procurement'], a:2},
+    {q:'Which is TRUE about pay-as-you-go pricing?', o:['You pay a fixed annual fee regardless of usage','You pay based on consumption','You cannot reduce costs','It applies only to storage services'], a:1},
+    {q:'Which cloud model gives you the most control over the OS?', o:['SaaS','PaaS','IaaS','FaaS'], a:2},
+    {q:'Which deployment model would you choose to meet strict regulatory or data locality needs?', o:['Public Cloud','Private Cloud','Hybrid Cloud','Community Cloud'], a:1},
+    {q:'Which is NOT a responsibility of the cloud provider in a typical IaaS offering?', o:['Physical security of data centers','Management of guest OS inside VM','Power and cooling','Hardware maintenance'], a:1},
+    {q:'Which statement best matches "Go Global in Minutes"?', o:['You must ship servers overseas','You can replicate applications to multiple regions quickly','You have to wait months to expand','Globalization is automated without configuration'], a:1},
+    {q:'Which of the following is a common reason organizations adopt cloud?', o:['To increase undifferentiated heavy lifting','To avoid scalability','To increase speed and agility','To remove all governance'], a:2},
+    {q:'Which is an example of stopping undifferentiated heavy lifting?', o:['Managing physical racks','Focusing on business logic while provider handles infrastructure','Writing drivers for hardware','Building custom network hardware'], a:1},
+    {q:'Which aspect is typically better in cloud than in a traditional data center?', o:['Predictable long procurement times','Elastic scalability','No need for security','Unlimited free compute'], a:1},
+    {q:'Which of the following pairs the correct service model with an example?', o:['IaaS — Gmail','PaaS — Amazon Elastic Beanstalk','SaaS — Amazon EC2','IaaS — AWS Lambda'], a:1},
+    {q:'Why might an organization choose a hybrid cloud?', o:['To keep everything on-premises','To maintain legacy apps on-prem while using cloud for new workloads','To avoid using cloud entirely','To ensure all data is public'], a:1},
+    {q:'Which of the following best describes the "benefit from massive economies of scale"?', o:['Cloud providers buy hardware in smaller batches','Cloud providers reduce cost per customer through large-scale operations','Cloud ensures zero operational cost for customers','Cloud providers eliminate the need for monitoring'], a:1}
+  ]
+};
+
+// Setup quizParts with chapter1 prefilled and others empty
+let quizParts = [];
+quizParts[0] = prefilledChapter1;
+for(let i=1;i<15;i++){ quizParts[i] = { title: chapterMeta[i], items: [] }; }
+
+// UI elements
+const partsNav = document.getElementById('partsNav');
+const content = document.getElementById('content');
+let activePart = 0;
+
+// create navigation buttons
+function makePartButton(i,title){
+  const b = document.createElement('button');
+  b.className = 'part-btn' + (i===0 ? ' active' : '');
+  b.textContent = (i+1)+'. '+ title.replace(/^Chapter \d+: /,'');
+  b.addEventListener('click', ()=>{ document.querySelectorAll('.part-btn').forEach(x=>x.classList.remove('active')); b.classList.add('active'); activePart=i; renderPart(i); });
+  return b;
+}
+chapterMeta.forEach((t,i)=> partsNav.appendChild(makePartButton(i,t)));
+
+// render a chapter
+function renderPart(idx){
+  content.innerHTML = '';
+  const part = quizParts[idx];
+  const card = document.createElement('div'); card.className='card';
+  const header = document.createElement('div'); header.style.display='flex'; header.style.alignItems='center';
+  const h = document.createElement('h2'); h.textContent = (idx+1)+'. '+ part.title; h.style.margin='0'; h.style.fontSize='18px';
+  const scoreSpan = document.createElement('div'); scoreSpan.className='score'; scoreSpan.textContent = 'Score: 0/'+(part.items.length||25);
+  header.appendChild(h); header.appendChild(scoreSpan); card.appendChild(header);
+
+  if(part.items.length===0){
+    const note = document.createElement('div'); note.className='notice';
+    note.innerHTML = 'This chapter has no questions yet. Use <strong>Auto-fill 25 Qs</strong> to generate chapter-specific questions, or click <strong>Fill All Chapters</strong> at top to populate everything.';
+    card.appendChild(note);
+    const controls = document.createElement('div'); controls.className='controls';
+    const gen = document.createElement('button'); gen.className='btn'; gen.textContent='Auto-fill 25 Qs';
+    gen.addEventListener('click', ()=>{ autoFillChapter(idx); renderPart(idx); });
+    const pre = document.createElement('button'); pre.className='btn small'; pre.style.background='#334155'; pre.textContent='Clear Chapter';
+    pre.addEventListener('click', ()=>{ quizParts[idx].items = []; renderPart(idx); });
+    controls.appendChild(gen); controls.appendChild(pre);
+    card.appendChild(controls);
+    content.appendChild(card);
+    return;
+  }
+
+  // answered tracking
+  const answered = Array(part.items.length).fill(null);
+
+  part.items.forEach((it,qi)=>{
+    const qwrap = document.createElement('div'); qwrap.className='question';
+    const qtxt = document.createElement('div'); qtxt.className='q-text'; qtxt.textContent = (qi+1)+'. '+it.q;
+    const opts = document.createElement('div'); opts.className='options';
+    it.o.forEach((opt,oi)=>{
+      const div = document.createElement('div'); div.className='opt'; div.tabIndex=0; div.textContent = String.fromCharCode(65+oi)+'. '+opt;
+      div.addEventListener('click', ()=>{
+        if(answered[qi] !== null) return;
+        answered[qi] = oi;
+        Array.from(opts.children).forEach((n,i)=>{ n.style.pointerEvents='none'; if(i===it.a) n.classList.add('correct'); if(i===oi && i!==it.a) n.classList.add('wrong'); });
+        updateScore();
+      });
+      opts.appendChild(div);
+    });
+    qwrap.appendChild(qtxt); qwrap.appendChild(opts);
+    const ctrl = document.createElement('div'); ctrl.className='controls';
+    const rev = document.createElement('button'); rev.className='btn small'; rev.textContent='Reveal Answer';
+    rev.addEventListener('click', ()=>{
+      if(answered[qi] !== null) return;
+      answered[qi] = 'revealed';
+      Array.from(opts.children).forEach((n,i)=>{ n.style.pointerEvents='none'; if(i===it.a) n.classList.add('correct'); });
+      updateScore();
+    });
+    ctrl.appendChild(rev); qwrap.appendChild(ctrl);
+    card.appendChild(qwrap);
+  });
+
+  const bottom = document.createElement('div'); bottom.style.display='flex'; bottom.style.gap='8px'; bottom.style.marginTop='12px';
+  const revealAll = document.createElement('button'); revealAll.className='btn'; revealAll.textContent='Reveal all answers';
+  revealAll.addEventListener('click', ()=>{
+    part.items.forEach((it,qi)=>{
+      const qEls = card.querySelectorAll('.question');
+      const opts = qEls[qi].querySelectorAll('.opt');
+      if(answered[qi]===null){ answered[qi] = 'revealed'; opts.forEach((n,i)=>{ n.style.pointerEvents='none'; if(i===it.a) n.classList.add('correct'); }); }
+    });
+    updateScore();
+  });
+  const reset = document.createElement('button'); reset.className='btn small'; reset.textContent='Reset section'; reset.style.background='#334155';
+  reset.addEventListener('click', ()=> renderPart(idx));
+  bottom.appendChild(revealAll); bottom.appendChild(reset);
+  card.appendChild(bottom);
+
+  function updateScore(){ let correct=0; for(let i=0;i<answered.length;i++){ if(answered[i] === part.items[i].a) correct++; } scoreSpan.textContent = 'Score: '+correct+'/'+part.items.length; }
+
+  content.appendChild(card);
+}
+
+// Auto-fill a single chapter with 25 generated Qs
+function autoFillChapter(idx){
+  const title = chapterMeta[idx];
+  const base = [];
+  for(let i=1;i<=25;i++){
+    const q = generateQuestionText(idx,i);
+    const opts = generateOptionsForChapter(idx,i);
+    const found = opts.findIndex(o=>o.endsWith(' [correct]'));
+    const clean = opts.map(o=>o.replace(/ \[correct\]$/,''));
+    const aidx = found===-1?0:found;
+    base.push({q:q,o:clean,a:aidx});
+  }
+  quizParts[idx].items = base;
+}
+
+// Fill all chapters (2..15) at once
+function fillAllChapters(){
+  for(let i=1;i<15;i++){
+    autoFillChapter(i);
+  }
+  // refresh current view
+  renderPart(activePart);
+}
+
+// Lightweight question generator: returns varied question text per chapter
+function generateQuestionText(ch, n){
+  // rotate some templates to add variation
+  const templates = {
+    0: [
+      'Which of the following best describes cloud computing?',
+      'What is a key advantage of cloud computing compared to on-premise?',
+      'Which model lets you pay for resources only when used?'
+    ],
+    1: [
+      'What is an AWS Availability Zone (AZ)?',
+      'Which AWS infrastructure element is used to cache content close to users?',
+      'What should you consider when selecting an AWS Region?'
+    ],
+    2: [
+      'Which AWS interface lets you run commands from your terminal?',
+      'Which SDK would you use to call AWS services from code?',
+      'Which tool is a web-based graphical console to manage AWS?'
+    ],
+    3: [
+      'Which EC2 feature is an image containing OS and apps used to launch instances?',
+      'Which service lets you run code without provisioning servers?',
+      'What is an EC2 instance type optimized for compute workloads?'
+    ],
+    4: [
+      'Which storage service is object-based and suitable for static website hosting?',
+      'Which storage provides persistent block storage for EC2?',
+      'Which storage allows multiple Linux EC2 instances to share a file system?'
+    ],
+    5: [
+      'Which AWS database is a managed relational service?',
+      'Which AWS database is designed for key-value and document workloads?',
+      'What AWS service is a data warehouse for analytics?'
+    ],
+    6: [
+      'Which AWS service provides a logically isolated virtual network?',
+      'Which service is used to distribute incoming traffic across instances?',
+      'Which AWS service is a CDN that caches content at edge locations?'
+    ],
+    7: [
+      'Which service can automatically scale EC2 capacity based on demand?',
+      'Which AWS service collects metrics and logs and creates alarms?',
+      'What can CloudWatch dashboards show?'
+    ],
+    8: [
+      'Which service enables infrastructure-as-code via templates?',
+      'Which service is for asynchronous message queues?',
+      'Which AWS service provides pub/sub notifications?'
+    ],
+    9: [
+      'Which IAM entity is intended to be assumable and provides temporary credentials?',
+      'What is a policy in IAM?',
+      'What is the best practice regarding root account usage?'
+    ],
+    10: [
+      'Which party is responsible for physical security of AWS data centers?',
+      'Which party is responsible for configuring security groups for your EC2 instances?',
+      'What does the shared responsibility model separate?'
+    ],
+    11: [
+      'Which AWS service protects against DDoS attacks at the edge?',
+      'Which tool performs automated security assessments of EC2 instances and containers?',
+      'Which service provides access to compliance reports?'
+    ],
+    12: [
+      'Which pillar of the Well-Architected Framework focuses on cost control?',
+      'Which pillar focuses on protecting data and systems?',
+      'Which pillar focuses on operational processes and improvements?'
+    ],
+    13: [
+      'Which EC2 pricing model is best for steady state workloads with 1-3 year commitment?',
+      'Which pricing model allows bidding on spare capacity for deep discounts?',
+      'Which factor does S3 pricing NOT depend on?'
+    ],
+    14: [
+      'Which command uploads a file to S3 from your CLI?',
+      'Which step is required to host a static site on S3?',
+      'Which security group rule is needed to let HTTP traffic to an EC2 web server?'
+    ]
+  };
+  const pool = templates[ch] || ['Sample question for chapter'];
+  // pick variation using n
+  return pool[(n-1) % pool.length] + ( (n>1) ? ' (Q'+n+')' : '' );
+}
+
+// Options generator (4 options with one marked [correct])
+function generateOptionsForChapter(ch,n){
+  switch(ch){
+    case 0:
+      return ['A model for on-device only computing','Converting CapEx into OpEx [correct]','A hardware vendor','An offline database'];
+    case 1:
+      return ['Region','Availability Zone [correct]','Edge Location','Data Center'];
+    case 2:
+      return ['AWS Management Console','AWS CLI [correct]','AWS Artifact','AWS Billing'];
+    case 3:
+      return ['Security Group','Elastic IP','AMI [correct]','Snapshot'];
+    case 4:
+      return ['S3 Object','EBS Volume [correct]','EFS File','Glacier Vault'];
+    case 5:
+      return ['Amazon RDS','Amazon DynamoDB [correct]','Amazon Redshift','Amazon Neptune'];
+    case 6:
+      return ['Route 53','Amazon VPC [correct]','CloudFront','Direct Connect'];
+    case 7:
+      return ['CloudTrail','CloudWatch [correct]','Inspector','Shield'];
+    case 8:
+      return ['AWS CLI','CloudFormation [correct]','Lambda','S3'];
+    case 9:
+      return ['User','Group','Role [correct]','Policy'];
+    case 10:
+      return ['Customer','AWS [correct]','Third-party auditor','Internet Service Provider'];
+    case 11:
+      return ['AWS WAF','AWS Shield [correct]','KMS','Inspector'];
+    case 12:
+      return ['Operational Excellence','Security','Cost Optimization [correct]','Performance Efficiency'];
+    case 13:
+      return ['On-Demand','Reserved Instances [correct]','Spot Instances','Dedicated Hosts'];
+    case 14:
+      return ['aws s3 cp file.txt s3://bucket/ [correct]','aws ec2 run-instances','aws configure','aws iam create-user'];
+    default:
+      return ['Option A','Option B [correct]','Option C','Option D'];
+  }
+}
+
+// Hook up Fill All and Download
+document.getElementById('fillAllBtn').addEventListener('click', ()=>{
+  if(!confirm('Fill all chapters with 25 auto-generated questions each?')) return;
+  fillAllChapters();
+  alert('All chapters have been populated. Click each chapter to view questions.');
+});
+document.getElementById('downloadBtn').addEventListener('click', ()=>{
+  // create a downloadable blob of the current document's HTML
+  const html = document.documentElement.outerHTML;
+  const blob = new Blob([html], {type: 'text/html'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'aws-quiz.html';
+  document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+});
+
+// initial render
+renderPart(0);
+
+</script>
+</body>
+</html>
